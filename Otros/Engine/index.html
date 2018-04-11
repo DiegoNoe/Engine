@@ -27,8 +27,6 @@
         database.on('value', function(snapshot) {
             products = Defiant.getSnapshot(snapshot.val());
         });
-
-        var validatedOrder = true;
     </script>
       
 </head>
@@ -359,7 +357,6 @@
 
          //populates an array with all the product values
          function getOrderProducts() {
-            verificatedOrder = true;
             var typesSequence = ["porPesarCamara", "yaPesadoCamara", "porPesarAfuera", "yaPesadoAfuera", "yaPesadoAfueraTrino", "aCremas", "aJamones"];
             var order = new Array($("#dynamic-list").children().length);
             for(var i = 0; i < order.length; i++)
@@ -370,18 +367,14 @@
                 //iterates over list items
                 $("#dynamic-list").children().each(function(index) {
                     if(JSON.search(products, '//' + $(this).data("id"))[0].tipo == typesSequence[sequenceIndex]) {
+                        //{id:0, quantity:1, unit:2, description:3, notes:4, tipo:5}
                         var productItem = $(this).children();
                         order[orderIndex][0] = $(this).data("id");
                         order[orderIndex][1] = productItem.eq(0).children().val();
                         order[orderIndex][2] = productItem.eq(1).text();
                         order[orderIndex][3] = productItem.eq(2).text();
                         order[orderIndex][4] = productItem.eq(3).children().val();
-                        order[orderIndex][5] = JSON.search(products, '//' + $(this).data("id"))[0].tipo;
-
-                        //verificating quantity
-                        if(order[orderIndex][1] == "" || order[orderIndex][1] == "0")
-                            verificatedOrder = false;
-
+                        order[orderIndex][5] = JSON.search(products, '//' + $(this).data("id"))[0].tipo
                         orderIndex++;
                     }
                 });
@@ -429,128 +422,123 @@
         function generatePDF() {
             //set PDF defaults
             var order = getOrderProducts();
-            if(verificatedOrder) {
-                var doc = new jsPDF({
-                    orientation: 'p',
-                    unit: 'mm',
-                    format: [213, 135]
-                });
+            var doc = new jsPDF({
+                orientation: 'p',
+                unit: 'mm',
+                format: [213, 135]
+            });
+            
+            //add custom fonts
+            doc.addFont('GILC____.TTF', "Gill Sans Std Condensed", "normal");
+            doc.addFont('GillSansMTCondensedBold.ttf', "Gill Sans MT Condensed Negrita", "normal");
+            doc.setFont("Gill Sans MT Condensed Negrita");
+            
+            addTimePDF(doc);
+            addNamePDF(doc);
+            doc.addImage(generateQR($("#inputName").val()), 'JPEG', 4.5, 197.5, 12, 12);
+
+            var shortenedUnits = {
+                KILO: "KG",
+                PIEZA: "PZ",
+                CAJA: "CJ",
+                CUB: "CUB",
+                EXB: "EXB",
+                LATA: "PZ"
+            };
+
+            var calculable = true;
+            var total = 0;
+            var firstLineYPosition = 46.5;
+            var lineHeight = 8.54;
+            var currentLine = 0;
+            for(var i = 0; i < order.length; i++) {
+                //adds new page if necessary
+                if(currentLine == 18 || (currentLine == 17 && order[i][4] != "")) {
+                    addPagePDF(doc);
+                    currentLine = 0;
+                } 
+
+                //quantity and unit
+                doc.setFont("Gill Sans Std Condensed");
+                doc.text(15, firstLineYPosition + (currentLine * lineHeight), order[i][1] + " " + shortenedUnits[order[i][2]], null, null, "center");                
                 
-                //add custom fonts
-                doc.addFont('GILC____.TTF', "Gill Sans Std Condensed", "normal");
-                doc.addFont('GillSansMTCondensedBold.ttf', "Gill Sans MT Condensed Negrita", "normal");
+                //product price * quantity
                 doc.setFont("Gill Sans MT Condensed Negrita");
-                
-                addTimePDF(doc);
-                addNamePDF(doc);
-                doc.addImage(generateQR($("#inputName").val()), 'JPEG', 4.5, 197.5, 12, 12);
+                product = JSON.search(products, '//' + order[i][0]);
+                if(order[i][5] != "porPesarCamara" && order[i][5] != "porPesarAfuera") {
+                    doc.text(119.5, firstLineYPosition + (currentLine * lineHeight) + .5, (product[0].costo * order[i][1]).toLocaleString('en-US'), null, null, "center");
+                    total += product[0].costo * order[i][1];
+                } else
+                    calculable = false;
 
-                var shortenedUnits = {
-                    KILO: "KG",
-                    PIEZA: "PZ",
-                    CAJA: "CJ",
-                    CUB: "CUB",
-                    EXB: "EXB",
-                    LATA: "PZ"
-                };
+                /*
+                //digits alignment
+                //product price * quantity
+                doc.setFont("Gill Sans MT Condensed Negrita");
+                product = JSON.search(products, '//' + order[i][0]);
+                if(order[i][5] != "porPesar") {
+                    var costoTotal = product[0].costo * order[i][1];
+                    if(costoTotal % 1 != 0)
+                        doc.text(130, firstLineYPosition + (currentLine * lineHeight) + .5, (product[0].costo * order[i][1]).toString(), null, null, "right");
+                    else
+                        doc.text(125.5, firstLineYPosition + (currentLine * lineHeight) + .5, (product[0].costo * order[i][1]).toString(), null, null, "right");
+                    total += costoTotal;
+                } else
+                    calculable = false;
+                */
 
-                var calculable = true;
-                var total = 0;
-                var firstLineYPosition = 46.5;
-                var lineHeight = 8.54;
-                var currentLine = 0;
-                for(var i = 0; i < order.length; i++) {
-                    //adds new page if necessary
-                    if(currentLine == 18 || (currentLine == 17 && order[i][4] != "")) {
-                        addPagePDF(doc);
-                        currentLine = 0;
-                    } 
-
-                    //quantity and unit
-                    doc.setFont("Gill Sans Std Condensed");
+                //if notes
+                doc.setFont("Gill Sans Std Condensed");
+                if(order[i][4] != "") {
+                    //notes
+                    doc.setFontSize(10);
+                    doc.text(26.3, firstLineYPosition + (currentLine * lineHeight) + 1.5, order[i][4]);
+                    //description
                     doc.setFontSize(16);
-                    doc.text(15, firstLineYPosition + (currentLine * lineHeight), order[i][1] + " " + shortenedUnits[order[i][2]], null, null, "center");                
-                    
-                    //product price * quantity
-                    doc.setFont("Gill Sans MT Condensed Negrita");
-                    product = JSON.search(products, '//' + order[i][0]);
-                    if(order[i][5] != "porPesarCamara" && order[i][5] != "porPesarAfuera") {
-                        doc.text(119.5, firstLineYPosition + (currentLine * lineHeight) + .5, (product[0].costo * order[i][1]).toLocaleString('en-US'), null, null, "center");
-                        total += product[0].costo * order[i][1];
-                    } else
-                        calculable = false;
-
-                    /*
-                    //digits alignment
-                    //product price * quantity
-                    doc.setFont("Gill Sans MT Condensed Negrita");
-                    product = JSON.search(products, '//' + order[i][0]);
-                    if(order[i][5] != "porPesar") {
-                        var costoTotal = product[0].costo * order[i][1];
-                        if(costoTotal % 1 != 0)
-                            doc.text(130, firstLineYPosition + (currentLine * lineHeight) + .5, (product[0].costo * order[i][1]).toString(), null, null, "right");
-                        else
-                            doc.text(125.5, firstLineYPosition + (currentLine * lineHeight) + .5, (product[0].costo * order[i][1]).toString(), null, null, "right");
-                        total += costoTotal;
-                    } else
-                        calculable = false;
-                    */
-
-                    //if notes
-                    doc.setFont("Gill Sans Std Condensed");
-                    if(order[i][4] != "") {
-                        //notes
-                        doc.setFontSize(10);
-                        doc.text(26.3, firstLineYPosition + (currentLine * lineHeight) + 1.5, order[i][4]);
-                        //description
-                        doc.setFontSize(16);
-                        doc.text(26, firstLineYPosition + (currentLine * lineHeight) - 1.5, order[i][3]);
-                    } else {
-                        //description
-                        doc.setFontSize(16);
-                        doc.text(26, firstLineYPosition + (currentLine * lineHeight), order[i][3]);
-                    }
-
-                    //send to cremas or jamones with index
-                    if(order[i][5] == "aCremas")
-                        aCremasOrder(order[i], i);
-                    else if(order[i][5] == "aJamones")
-                        aJamonesOrder(order[i], i);
-
-                    //if product needs to be weight, then line
-                    if(order[i][5] == "porPesarCamara" || order[i][5] == "porPesarAfuera") {
-                        doc.setLineWidth(0.35);
-                        doc.line(93, firstLineYPosition + (currentLine * lineHeight) + 2.2, 108, firstLineYPosition + (currentLine * lineHeight) + 2.2);
-                    }
-                    //if product is being supplied by suppliers then draw cirlce
-                    if(order[i][5] == "porPesarCamara" || order[i][5] == "yaPesadoCamara")
-                        drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "blue");
-                    else if(order[i][5] == "porPesarAfuera" || order[i][5] == "yaPesadoAfuera")
-                        drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "red");
-
-
-                    currentLine++;
-                }
-                
-                //if calculable then total
-                doc.setFont("Gill Sans MT Condensed Negrita");
-                doc.setFontSize(25);
-                if(calculable) {
-                    if((total / 1000) >= 1) {
-                        doc.text(96, 206, total.toLocaleString('en-US'));
-                    } else
-                        doc.text(96, 206, total.toString());
+                    doc.text(26, firstLineYPosition + (currentLine * lineHeight) - 1.5, order[i][3]);
+                } else {
+                    //description
+                    doc.setFontSize(16);
+                    doc.text(26, firstLineYPosition + (currentLine * lineHeight), order[i][3]);
                 }
 
-                //autoprints PDF in a new tab
-                doc.autoPrint();
-                window.open(doc.output('bloburl'), '_blank');
+                //send to cremas or jamones with index
+                if(order[i][5] == "aCremas")
+                    aCremasOrder(order[i], i);
+                else if(order[i][5] == "aJamones")
+                    aJamonesOrder(order[i], i);
 
-                //erase current order
-                eraseOrder();
-            } else {
-                alert("Un producto no tiene cantidad, llena todas las cantidades.");
+                //if product needs to be weight, then line
+                if(order[i][5] == "porPesarCamara" || order[i][5] == "porPesarAfuera") {
+                    doc.setLineWidth(0.35);
+                    doc.line(93, firstLineYPosition + (currentLine * lineHeight) + 2.2, 108, firstLineYPosition + (currentLine * lineHeight) + 2.2);
+                }
+                //if product is being supplied by suppliers then draw cirlce
+                if(order[i][5] == "porPesarCamara" || order[i][5] == "yaPesadoCamara")
+                    drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "blue");
+                else if(order[i][5] == "porPesarAfuera" || order[i][5] == "yaPesadoAfuera")
+                    drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "red");
+
+
+                currentLine++;
             }
+            
+            //if calculable then total
+            doc.setFont("Gill Sans MT Condensed Negrita");
+            doc.setFontSize(25);
+            if(calculable) {
+                if((total / 1000) >= 1) {
+                    doc.text(96, 206, total.toLocaleString('en-US'));
+                } else
+                    doc.text(96, 206, total.toString());
+            }
+
+            //autoprints PDF in a new tab
+            doc.autoPrint();
+            window.open(doc.output('bloburl'), '_blank');
+
+            //erase current order
+            eraseOrder();
         }
 
         //uploads the aCremas product
