@@ -415,7 +415,7 @@
         function addNamePDF(doc) {
             var name = $("#inputName").val();
             doc.setFontSize(22);
-            doc.text(27, 34.5, name);
+            doc.text(27, 34, name);
         }
 
         function drawCricle(doc, YCoordinate, validColor) {
@@ -432,7 +432,7 @@
             //set PDF defaults
             var order = getOrderProducts();
             if($("#inputName").val() == "") {
-                alert("La nota no tiene nombre, ingresa uno.");
+                alert("La nota no tiene nombre, ingresa");
                 verificatedOrder = false;
             }
             if(verificatedOrder) {
@@ -449,7 +449,7 @@
                 
                 addTimePDF(doc);
                 addNamePDF(doc);
-                doc.addImage(generateQR($("#inputName").val()), 'JPEG', 4.5, 195, 12, 12);
+                doc.addImage(generateQR($("#inputName").val()), 'JPEG', 4.5, 197.5, 12, 12);
 
                 var shortenedUnits = {
                     KILO: "KG",
