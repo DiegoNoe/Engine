@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Right View</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="rightView.css">  
+    
+    <script src="snow-background.js"></script>
+    <script>
+        window.onload = function() {
+            try {
+                snow.count = 30;   // number of flakes
+                snow.delay = 20;   // timer interval
+                snow.minSpeed = 2; // minimum movement/time slice
+                snow.maxSpeed = 5; // maximum movement/time slice
+                snow.start();
+            } catch(e) {
+                // no snow :(
+            }
+        };
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+    <script>
+        var config = {
+            apiKey: "AIzaSyDrVZ3499rhvfFpxfRbU-wqJ-ZUN0-_ez0",
+            authDomain: "cremeria-imperial.firebaseapp.com",
+            databaseURL: "https://cremeria-imperial.firebaseio.com",
+            projectId: "cremeria-imperial",
+            storageBucket: "cremeria-imperial.appspot.com",
+            messagingSenderId: "445465872507"
+        };
+        firebase.initializeApp(config);
+      
+        var database = firebase.database().ref('productos');
+        database.on('value', function(snapshot) {
+            document.getElementById("FRUTSI").innerHTML = "$" + snapshot.val().FRUTSI.costo;
+            document.getElementById("GATOC").innerHTML = "$" + snapshot.val().GATOC.costo;
+            document.getElementById("BOINGCH").innerHTML = "$" + snapshot.val().BOINGCH.costo;
+            document.getElementById("BOINGG").innerHTML = "$" + snapshot.val().BOINGG.costo;
+            document.getElementById("JUMEX").innerHTML = "$" + snapshot.val().JUMEX.costo;
+            document.getElementById("ADES").innerHTML = "$" + snapshot.val().ADES.costo;
+            document.getElementById("HER").innerHTML = "$" + snapshot.val().HER.costo;
+            document.getElementById("COCAC").innerHTML = "$" + snapshot.val().COCAC.costo;
+            document.getElementById("PEPSIC").innerHTML = "$" + snapshot.val().PEPSIC.costo;
+            document.getElementById("TONIC").innerHTML = "$" + snapshot.val().TONIC.costo;
+            document.getElementById("V8").innerHTML = "$" + snapshot.val().V8.costo;
+            document.getElementById("AGCACCU").innerHTML = "$" + snapshot.val().AGCACCU.costo;
+            document.getElementById("AGIM1500C").innerHTML = "$" + snapshot.val().AGIM1500C.costo;
+            document.getElementById("YAK30").innerHTML = "$" + snapshot.val().YAK30.costo;
+        });
+
+        var promosJSON;
+        var databasePromos = firebase.database().ref('promociones');
+        databasePromos.on('value', function(snapshot) {
+            document.getElementById("PROM1p").innerHTML = snapshot.val().PROM1.producto;
+            document.getElementById("PROM1c").innerHTML = snapshot.val().PROM1.precio;
+            document.getElementById("PROM2p").innerHTML = snapshot.val().PROM2.producto;
+            document.getElementById("PROM2c").innerHTML = snapshot.val().PROM2.precio;
+            document.getElementById("PROM3p").innerHTML = snapshot.val().PROM3.producto;
+            document.getElementById("PROM3c").innerHTML = snapshot.val().PROM3.precio;
+            document.getElementById("PROM4p").innerHTML = snapshot.val().PROM4.producto;
+            document.getElementById("PROM4c").innerHTML = snapshot.val().PROM4.precio;
+            document.getElementById("PROM5p").innerHTML = snapshot.val().PROM5.producto;
+            document.getElementById("PROM5c").innerHTML = snapshot.val().PROM5.precio;
+            document.getElementById("PROM6p").innerHTML = snapshot.val().PROM6.producto;
+            document.getElementById("PROM6c").innerHTML = snapshot.val().PROM6.precio;
+            document.getElementById("PROM7p").innerHTML = snapshot.val().PROM7.producto;
+            document.getElementById("PROM7c").innerHTML = snapshot.val().PROM7.precio;
+            document.getElementById("PROM8p").innerHTML = snapshot.val().PROM8.producto;
+            document.getElementById("PROM8c").innerHTML = snapshot.val().PROM8.precio;
+            document.getElementById("PROM9p").innerHTML = snapshot.val().PROM9.producto;
+            document.getElementById("PROM9c").innerHTML = snapshot.val().PROM9.precio;
+            document.getElementById("PROM10p").innerHTML = snapshot.val().PROM10.producto;
+            document.getElementById("PROM10c").innerHTML = snapshot.val().PROM10.precio;
+            document.getElementById("PROM11p").innerHTML = snapshot.val().PROM11.producto;
+            document.getElementById("PROM11c").innerHTML = snapshot.val().PROM11.precio;
+            document.getElementById("PROM12p").innerHTML = snapshot.val().PROM12.producto;
+            document.getElementById("PROM12c").innerHTML = snapshot.val().PROM12.precio;
+            document.getElementById("PROM13p").innerHTML = snapshot.val().PROM13.producto;
+            document.getElementById("PROM13c").innerHTML = snapshot.val().PROM13.precio;
+            document.getElementById("PROM14p").innerHTML = snapshot.val().PROM14.producto;
+            document.getElementById("PROM14c").innerHTML = snapshot.val().PROM14.precio;
+            promosJSON = snapshot.val();
+        });
+
+        var animations = ["https://image.ibb.co/cePsAG/promo1.png", "https://image.ibb.co/mYD0fG/promo6.png"]; 
+        var animationPromos = document.getElementsByClassName("promo");
+        var animationState = 0;
+        setInterval(function() {
+            animationState = (animationState + 1) % 2
+            for(var i = 1; i <= animationPromos.length; i++) {
+                if(promosJSON["PROM" + i]["animacion"] == "si")
+                    document.getElementById("PROM" + i + "i").src = animations[animationState];
+                else
+                    document.getElementById("PROM" + i + "i").src = animations[0];
+            } 
+        }, 600);
+        
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3" id="firstColumn">
+                <h3 class="title">Bebidas</h3>  
+                <div class="product">                        
+                    <span class="name">Frutsi</span>
+                    <span class="price" id="FRUTSI"> </span>
+                </div>
+                <div class="product">                
+                    <span class="name">Gatorade</span>
+                    <span class="price" id="GATOC"> </span>  
+                </div>
+                <div class="product">                               
+                    <span class="name">Boing 250ml</span>
+                    <span class="price" id="BOINGCH"> </span>  
+                </div>
+                <div class="product">                               
+                    <span class="name">Boing 500ml</span>
+                    <span class="price" id="BOINGG"> </span>
+                </div>
+                <div class="product">
+                    <span class="name">Jumex Mini</span>
+                    <span class="price" id="JUMEX"> </span>
+                </div>
+                <div class="product">                        
+                    <span class="name">Ades</span>
+                    <span class="price" id="ADES"> </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Hersheys</span>
+                    <span class="price" id="HER"> </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Coca Cola</span>
+                    <span class="price" id="COCAC"> </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Pepsi lata</span>
+                    <span class="price" id="PEPSIC"> </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Tonicol</span>
+                    <span class="price" id="TONIC"> </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">V8 Splash</span>
+                    <span class="price" id="V8"> </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Cactus</span>
+                    <span class="price" id="AGCACCU"> </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Agua</span>
+                    <span class="price" id="AGIM1500C"> </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Yakult</span>
+                    <span class="price" id="YAK30"> </span>
+                </div>
+            </div>
+            <div class="col-sm-9" id="secondColumn">
+                <h3 class="title">Promociones del día</h3>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM1p">Promoción</div> 
+                        <div class="price_over_image" id="PROM1c">#1</div>                                                    
+                        <img class="promo" id="PROM1i" src="https://image.ibb.co/cePsAG/promo1.png"> 
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM2p">Promoción</div> 
+                        <div class="price_over_image" id="PROM2c">#2</div>                                                    
+                        <img class="promo" id="PROM2i" src="https://image.ibb.co/cePsAG/promo1.png">
+                    </div>
+                    <div class="col-sm-3" id="promo3">
+                        <div class="text_over_image" id="PROM3p">Promoción</div> 
+                        <div class="price_over_image" id="PROM3c">#3</div>                                                    
+                        <img class="promo" id="PROM3i" src="https://image.ibb.co/cePsAG/promo1.png">   
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM4p">Promoción</div> 
+                        <div class="price_over_image" id="PROM4c">#4</div>                                                    
+                        <img class="promo" id="PROM4i" src="https://image.ibb.co/cePsAG/promo1.png">     
+                    </div>
+                </div>
+                <div class="row" id="smallRow">
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM5p">Promoción</div> 
+                        <div class="price_over_image" id="PROM5c">#5</div>                                                    
+                        <img class="promo" id="PROM5i" src="https://image.ibb.co/cePsAG/promo1.png">
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM6p">Promoción</div> 
+                        <div class="price_over_image" id="PROM6c">#6</div>                                                    
+                        <img class="promo" id="PROM6i" src="https://image.ibb.co/cePsAG/promo1.png">        
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM7p">Promoción</div> 
+                        <div class="price_over_image" id="PROM7c">#7</div>                                                    
+                        <img class="promo" id="PROM7i" src="https://image.ibb.co/cePsAG/promo1.png">   
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM8p">Promoción</div> 
+                        <div class="price_over_image" id="PROM8c">#8</div>                                                    
+                        <img class="promo" id="PROM8i" src="https://image.ibb.co/cePsAG/promo1.png">    
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM9p">Promoción</div> 
+                        <div class="price_over_image" id="PROM9c">#9</div>                                                    
+                        <img class="promo" id="PROM9i" src="https://image.ibb.co/cePsAG/promo1.png">       
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM10p">Promoción</div> 
+                        <div class="price_over_image" id="PROM10c">#10</div>                                                    
+                        <img class="promo" id="PROM10i" src="https://image.ibb.co/cePsAG/promo1.png">   
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM11p">Promoción</div> 
+                        <div class="price_over_image" id="PROM11c">#11</div>                                                    
+                        <img class="promo" id="PROM11i" src="https://image.ibb.co/cePsAG/promo1.png">       
+                    </div>
+                </div>
+                <div class="row" id="smallRow">
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM12p">Promoción</div> 
+                        <div class="price_over_image" id="PROM12c">#12</div>                                                    
+                        <img class="promo" id="PROM12i" src="https://image.ibb.co/cePsAG/promo1.png">    
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM13p">Promoción</div> 
+                        <div class="price_over_image" id="PROM13c">#13</div>                                                    
+                        <img class="promo" id="PROM13i" src="https://image.ibb.co/cePsAG/promo1.png">        
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM14p">Promoción</div> 
+                        <div class="price_over_image" id="PROM14c">#14</div>                                                    
+                        <img class="promo" id="PROM14i" src="https://image.ibb.co/cePsAG/promo1.png">    
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+
+</body>
+<script>
+    /*
+    setInterval(function(){
+        if(document.getElementById("PROM5i").src == "https://image.ibb.co/cePsAG/promo1.png")
+            document.getElementById("PROM5i").src = "https://image.ibb.co/mYD0fG/promo6.png";
+        else
+            document.getElementById("PROM5i").src = "https://image.ibb.co/cePsAG/promo1.png"
+    }, 600);
+    */
+</script>
+</html>
+

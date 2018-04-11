@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Center view</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="centerView.css">  
+
+    <script src="bootbox.min.js"></script>    
+
+    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+    <script>
+
+        var config = {
+            apiKey: "AIzaSyDrVZ3499rhvfFpxfRbU-wqJ-ZUN0-_ez0",
+            authDomain: "cremeria-imperial.firebaseapp.com",
+            databaseURL: "https://cremeria-imperial.firebaseio.com",
+            projectId: "cremeria-imperial",
+            storageBucket: "cremeria-imperial.appspot.com",
+            messagingSenderId: "445465872507"
+        };
+
+        firebase.initializeApp(config);
+        
+        var database = firebase.database().ref('productos');
+        database.on('value', function(snapshot) {
+            //Endulzantes
+            document.getElementById("CAJK").value = snapshot.val().CAJK.costo;
+            document.getElementById("MIELK").value = snapshot.val().MIELK.costo;
+            document.getElementById("MIEPUK").value = snapshot.val().MIEPUK.costo;
+            document.getElementById("CONA1").value = snapshot.val().CONA1.costo;
+            document.getElementById("MERF").value = snapshot.val().MER.costo;
+            document.getElementById("MERP").value = snapshot.val().MER.costo;
+            document.getElementById("ATE").value = snapshot.val().ATE.costo;
+            //Cremas
+            document.getElementById("CRH").value = snapshot.val().CRH.costo;
+            document.getElementById("CREX").value = snapshot.val().CREX.costo;
+            document.getElementById("CRPU").value = snapshot.val().CRPU.costo;
+            document.getElementById("CRME").value = snapshot.val().CRME.costo;
+            document.getElementById("CRBIO").value = snapshot.val().CRBIO.costo;
+            document.getElementById("CCHA").value = snapshot.val().CCHA.costo;
+            //Quesos
+            document.getElementById("ADFIM").value = snapshot.val().ADFIM.costo;
+            document.getElementById("COT1").value = snapshot.val().COT1.costo;
+            document.getElementById("PANE").value = snapshot.val().PANE.costo;
+            document.getElementById("OAXAK").value = snapshot.val().OAXAK.costo;
+            document.getElementById("CHIHUA").value = snapshot.val().CHIHUA.costo;
+            document.getElementById("MZLA").value = snapshot.val().MZLA.costo;
+            document.getElementById("COT380").value = snapshot.val().COT380.costo;
+            document.getElementById("MOLEC").value = snapshot.val().MOLEC.costo;
+            document.getElementById("QURAN").value = snapshot.val().QURAN.costo;
+            document.getElementById("ADMIM").value = snapshot.val().ADMIM.costo;
+            document.getElementById("COT2").value = snapshot.val().COT2.costo;
+            document.getElementById("REQUE").value = snapshot.val().REQUE.costo;
+            document.getElementById("CHEDA").value = snapshot.val().CHEDA.costo;
+            document.getElementById("MCHE").value = snapshot.val().MCHE.costo;
+            document.getElementById("GOUDA").value = snapshot.val().GOUDA.costo;
+            document.getElementById("QPARM").value = snapshot.val().QPARM.costo;
+            document.getElementById("ASAD").value = snapshot.val().ASAD.costo;
+            document.getElementById("QUENA").value = snapshot.val().QUENA.costo;
+            //Quesos en rebandas
+            document.getElementById("SING").value = snapshot.val().SING.costo;
+            document.getElementById("QAMEF").value = snapshot.val().QAMEF.costo;
+            document.getElementById("PQMA").value = snapshot.val().PQMA.costo;
+            document.getElementById("AMAV").value = snapshot.val().AMAV.costo;
+            document.getElementById("EXBSAP").value = snapshot.val().EXBSAP.costo;
+            document.getElementById("QADEXB").value = snapshot.val().QADEXB.costo;
+            document.getElementById("PHIR").value = snapshot.val().PHIR.costo;
+            //Queso Crema
+            document.getElementById("QCRE2").value = snapshot.val().QCRE2.costo;
+            document.getElementById("QCRE1").value = snapshot.val().QCRE1.costo;
+            document.getElementById("DCVI").value = snapshot.val().DCVI.costo;
+            document.getElementById("PH19").value = snapshot.val().PH19.costo;
+            document.getElementById("PH1K").value = snapshot.val().PH1K.costo;
+        });
+    </script>
+      
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3" id="firstColumn">
+                <h3 class="title">Endulzantes</h3>  
+                <div class="product">                        
+                    <span class="name" id="cajeta">Cajeta</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("CAJK");}' 
+                        class="price" id="CAJK"> 
+                    </input>
+                </div>
+                <div class="product">                
+                    <span class="name">Miel</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("MIELK");}' 
+                        class="price" id="MIELK"> 
+                    </input>
+                </div>
+                <div class="product">                               
+                    <span class="name">Miel pura</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("MIEPUK");}' 
+                        class="price" id="MIEPUK"> 
+                    </input>
+                </div>
+                <div class="product">                               
+                    <span class="name">Leche condensada</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("CONA1");}' 
+                        class="price" id="CONA1"> 
+                    </input>
+                </div>
+                <div class="product">
+                    <span class="name">Mermelada fresa</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("MERF");}' 
+                        class="price" id="MERF"> 
+                    </input>
+                </div>
+                <div class="product">
+                    <span class="name">Mermelada piña</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("MERP");}' 
+                        class="price" id="MERP"> 
+                    </input>
+                </div>
+                <div class="product">                        
+                    <span class="name">Ate membrillo</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("ATE");}' 
+                        class="price" id="ATE"> 
+                    </input>
+                </div>
+                <h3 class="title">Cremas</h3>                  
+                <div class="product"> 
+                    <span class="name">Chorro</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("CRH");}' 
+                        class="price" id="CRH"> 
+                    </input>
+                </div>
+                <div class="product"> 
+                    <span class="name">Extra</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("CREX");}' 
+                        class="price" id="CREX"> 
+                    </input>
+                </div>
+                <div class="product"> 
+                    <span class="name">Pura</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("CRPU");}' 
+                        class="price" id="CRPU"> 
+                    </input>
+                </div>
+                <div class="product"> 
+                    <span class="name">Media</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("CRME");}' 
+                        class="price" id="CRME"> 
+                    </input>
+                </div>
+                <div class="product"> 
+                    <span class="name">Bionicos</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("CRBIO");}' 
+                        class="price" id="CRBIO"> 
+                    </input>
+                </div>
+                <div class="product"> 
+                    <span class="name">Chantilly</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("CCHA");}' 
+                        class="price" id="CCHA"> 
+                    </input>
+                </div>
+            </div>
+            <div class="col-md-6" id="centerColumn">
+                <img id="logo" src="images/logo.png">
+                <h3 class="title">Quesos</h3>                                  
+                <div class="col-sm-6" id="secondColumn">
+                    <div class="product">                        
+                        <span class="name">Fundir</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("ADFIM");}' 
+                            class="price" id="ADFIM"> 
+                        </input>
+                    </div>
+                    <div class="product">                
+                        <span class="name">Cotija 1</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("COT1");}' 
+                            class="price" id="COT1"> 
+                        </input>
+                    </div>
+                    <div class="product">                               
+                        <span class="name">Panela</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("PANE");}' 
+                            class="price" id="PANE"> 
+                        </input>
+                    </div>
+                    <div class="product">                               
+                        <span class="name">Oaxaca</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("OAXAK");}' 
+                            class="price" id="OAXAK"> 
+                        </input>
+                    </div>
+                    <div class="product">
+                        <span class="name">Chihuahua</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("CHIHUA");}' 
+                            class="price" id="CHIHUA"> 
+                        </input>
+                    </div>
+                    <div class="product">                        
+                        <span class="name">Mozarella</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("MZLA");}' 
+                            class="price" id="MZLA"> 
+                        </input>
+                    </div>
+                    <div class="product"> 
+                        <span class="name">Cottage</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("COT380");}' 
+                            class="price" id="COT380"> 
+                        </input>
+                    </div>
+                    <div class="product"> 
+                        <span class="name">Molido eco.</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("MOLEC");}' 
+                            class="price" id="MOLEC"> 
+                        </input>
+                    </div>
+                    <div class="product"> 
+                        <span class="name">Ranchero</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("QURAN");}' 
+                            class="price" id="QURAN"> 
+                        </input>
+                    </div>
+                </div>
+                <div class="col-sm-6" id="thirdColumn">
+                    <div class="product">                        
+                        <span class="name">Mesa</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("ADMIM");}' 
+                            class="price" id="ADMIM"> 
+                        </input>
+                    </div>
+                    <div class="product">                
+                        <span class="name">Cotija 2</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("COT2");}' 
+                            class="price" id="COT2"> 
+                        </input>
+                    </div>
+                    <div class="product">                               
+                        <span class="name">Requeson</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("REQUE");}' 
+                            class="price" id="REQUE"> 
+                        </input>
+                    </div>
+                    <div class="product">                               
+                        <span class="name">Cheddar</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("CHEDA");}' 
+                            class="price" id="CHEDA"> 
+                        </input>
+                    </div>
+                    <div class="product">
+                        <span class="name">Manchego</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("MCHE");}' 
+                            class="price" id="MCHE"> 
+                        </input>
+                    </div>
+                    <div class="product">                        
+                        <span class="name">Gouda</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("GOUDA");}' 
+                            class="price" id="GOUDA"> 
+                        </input>
+                    </div>
+                    <div class="product"> 
+                        <span class="name">Parmesano</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("QPARM");}' 
+                            class="price" id="QPARM"> 
+                        </input>
+                    </div>
+                    <div class="product"> 
+                        <span class="name">Asadero</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("ASAD");}' 
+                            class="price" id="ASAD"> 
+                        </input>
+                    </div>
+                    <div class="product"> 
+                        <span class="name">Nacho</span>
+                        <input type="text" 
+                            onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                            onkeydown='if (event.keyCode == 13) {updatePrice("QUENA");}' 
+                            class="price" id="QUENA"> 
+                        </input>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3" id="fourthColumn">
+                <h3 class="title">Quesos en <br> rebanadas</h3>  
+                <div class="product">                        
+                    <span class="name">Singles</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("SING");}' 
+                        class="price" id="SING"> 
+                    </input>
+                </div>
+                <div class="product">                
+                    <span class="name">Fud Americano</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("QAMEF");}' 
+                        class="price" id="QAMEF"> 
+                    </input>
+                </div>
+                <div class="product">                        
+                    <span class="name">Fud Manchego</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("PQMA");}' 
+                        class="price" id="PQMA"> 
+                    </input>
+                </div>
+                <div class="product">                
+                    <span class="name">Villita</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("AMAV");}' 
+                        class="price" id="AMAV"> 
+                    </input>
+                </div>
+                <div class="product">                        
+                    <span class="name">Sabino exb</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("EXBSAP");}' 
+                        class="price" id="EXBSAP"> 
+                    </input>
+                </div>
+                <div class="product">                
+                    <span class="name">Daisy</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("QADEXB");}' 
+                        class="price" id="QADEXB"> 
+                    </input>
+                </div>
+                <div class="product">                        
+                    <span class="name">Philadelphia</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("PHIR");}' 
+                        class="price" id="PHIR"> 
+                    </input>
+                </div>
+                <h3 class="title">Quesos Crema</h3>                  
+                <div class="product">                               
+                    <span class="name">Cienega 2k</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("QCRE2");}' 
+                        class="price" id="QCRE2"> 
+                    </input>
+                </div>
+                <div class="product">                               
+                    <span class="name">La Barca 1k</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("QCRE1");}' 
+                        class="price" id="QCRE1"> 
+                    </input>
+                </div>
+                <div class="product">
+                    <span class="name">Villita ½k</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("DCVI");}' 
+                        class="price" id="DCVI"> 
+                    </input>
+                </div>
+                <div class="product">
+                    <span class="name">Philadelphia 190g</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("PH19");}' 
+                        class="price" id="PH19"> 
+                    </input>
+                </div>
+                <div class="product">
+                    <span class="name">Philadelphia 1.9k</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("PH1K");}' 
+                        class="price" id="PH1K"> 
+                    </input>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updatePrice(id) {
+            var database = firebase.database().ref('productos/' + id + '/costo');
+            database.set(document.getElementById(id).value).then(function(){
+                document.getElementById(id).blur();
+                var dialog = bootbox.dialog({
+                    message: '<p class="text-center" >' + id + ' ha sido actualizado exitosamente</p>',
+                    closeButton: false,
+                    backdrop: false
+                });
+                setTimeout(function(){ dialog.modal('hide')}, 1000);
+            });
+        }
+    </script>
+
+</body>
+</html>

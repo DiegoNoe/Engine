@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Right View</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="rightView.css">  
+    
+    <script src="bootbox.min.js"></script>            
+
+    <script src="snow-background.js"></script>
+    <script>
+        window.onload = function() {
+            try {
+                snow.count = 30;   // number of flakes
+                snow.delay = 20;   // timer interval
+                snow.minSpeed = 2; // minimum movement/time slice
+                snow.maxSpeed = 5; // maximum movement/time slice
+                //snow.start();
+            } catch(e) {
+                // no snow :(
+            }
+        };
+    </script>
+    
+    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>    
+    <script>
+        var config = {
+            apiKey: "AIzaSyDrVZ3499rhvfFpxfRbU-wqJ-ZUN0-_ez0",
+            authDomain: "cremeria-imperial.firebaseapp.com",
+            databaseURL: "https://cremeria-imperial.firebaseio.com",
+            projectId: "cremeria-imperial",
+            storageBucket: "cremeria-imperial.appspot.com",
+            messagingSenderId: "445465872507"
+        };
+        firebase.initializeApp(config);
+      
+        var database = firebase.database().ref('productos');
+        database.on('value', function(snapshot) {
+            document.getElementById("FRUTSI").value  = snapshot.val().FRUTSI.costo;
+            document.getElementById("GATOC").value  = snapshot.val().GATOC.costo;
+            document.getElementById("BOINGCH").value  = snapshot.val().BOINGCH.costo;
+            document.getElementById("BOINGG").value  = snapshot.val().BOINGG.costo;
+            document.getElementById("JUMEX").value  = snapshot.val().JUMEX.costo;
+            document.getElementById("ADES").value  = snapshot.val().ADES.costo;
+            document.getElementById("HER").value  = snapshot.val().HER.costo;
+            document.getElementById("COCAC").value  = snapshot.val().COCAC.costo;
+            document.getElementById("PEPSIC").value  = snapshot.val().PEPSIC.costo;
+            document.getElementById("TONIC").value  = snapshot.val().TONIC.costo;
+            document.getElementById("V8").value  = snapshot.val().V8.costo;
+            document.getElementById("AGCACCU").value  = snapshot.val().AGCACCU.costo;
+            document.getElementById("AGIM1500C").value  = snapshot.val().AGIM1500C.costo;
+            document.getElementById("YAK30").value  = snapshot.val().YAK30.costo;
+        });
+
+        var promosJSON;
+        var databasePromos = firebase.database().ref('promociones');
+        databasePromos.on('value', function(snapshot) {
+            document.getElementById("PROM1p").value  = snapshot.val().PROM1.producto;
+            document.getElementById("PROM1c").value  = snapshot.val().PROM1.precio;
+            document.getElementById("PROM2p").value  = snapshot.val().PROM2.producto;
+            document.getElementById("PROM2c").value  = snapshot.val().PROM2.precio;
+            document.getElementById("PROM3p").value  = snapshot.val().PROM3.producto;
+            document.getElementById("PROM3c").value  = snapshot.val().PROM3.precio;
+            document.getElementById("PROM4p").value  = snapshot.val().PROM4.producto;
+            document.getElementById("PROM4c").value  = snapshot.val().PROM4.precio;
+            document.getElementById("PROM5p").value  = snapshot.val().PROM5.producto;
+            document.getElementById("PROM5c").value  = snapshot.val().PROM5.precio;
+            document.getElementById("PROM6p").value  = snapshot.val().PROM6.producto;
+            document.getElementById("PROM6c").value  = snapshot.val().PROM6.precio;
+            document.getElementById("PROM7p").value  = snapshot.val().PROM7.producto;
+            document.getElementById("PROM7c").value  = snapshot.val().PROM7.precio;
+            document.getElementById("PROM8p").value  = snapshot.val().PROM8.producto;
+            document.getElementById("PROM8c").value  = snapshot.val().PROM8.precio;
+            document.getElementById("PROM9p").value  = snapshot.val().PROM9.producto;
+            document.getElementById("PROM9c").value  = snapshot.val().PROM9.precio;
+            document.getElementById("PROM10p").value  = snapshot.val().PROM10.producto;
+            document.getElementById("PROM10c").value  = snapshot.val().PROM10.precio;
+            document.getElementById("PROM11p").value  = snapshot.val().PROM11.producto;
+            document.getElementById("PROM11c").value  = snapshot.val().PROM11.precio;
+            document.getElementById("PROM12p").value  = snapshot.val().PROM12.producto;
+            document.getElementById("PROM12c").value  = snapshot.val().PROM12.precio;
+            document.getElementById("PROM13p").value  = snapshot.val().PROM13.producto;
+            document.getElementById("PROM13c").value  = snapshot.val().PROM13.precio;
+            document.getElementById("PROM14p").value  = snapshot.val().PROM14.producto;
+            document.getElementById("PROM14c").value  = snapshot.val().PROM14.precio;
+            promosJSON = snapshot.val();
+        });
+
+        var animations = ["https://image.ibb.co/cePsAG/promo1.png", "https://image.ibb.co/mYD0fG/promo6.png"]; 
+        var animationPromos = document.getElementsByClassName("promo");
+        var animationState = 0;
+        setInterval(function() {
+            animationState = (animationState + 1) % 2
+            for(var i = 1; i <= animationPromos.length; i++) {
+                if(promosJSON[("PROM" + i)]["animacion"] == "si")
+                    document.getElementById("PROM" + i + "i").src = animations[animationState];
+                else
+                    document.getElementById("PROM" + i + "i").src = animations[0];
+            } 
+        }, 600);
+        
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3" id="firstColumn">
+                <h3 class="title">Bebidas</h3>  
+                <div class="product">                        
+                    <span class="name">Frutsi</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("FRUTSI");}' 
+                        class="price" id="FRUTSI"> 
+                    </input>
+                </div>
+                <div class="product">                
+                    <span class="name">Gatorade</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("GATOC");}' 
+                        class="price" id="GATOC"> 
+                    </input>
+                </div>
+                <div class="product">                               
+                    <span class="name">Boing 250ml</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("BOINGCH");}' 
+                        class="price" id="BOINGCH"> 
+                    </input>
+                </div>
+                <div class="product">                               
+                    <span class="name">Boing 500ml</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("BOINGG");}' 
+                        class="price" id="BOINGG"> 
+                    </input>
+                </div>
+                <div class="product">
+                    <span class="name">Jumex Mini</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("JUMEX");}' 
+                        class="price" id="JUMEX"> 
+                    </input>
+                </div>
+                <div class="product">                        
+                    <span class="name">Ades</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("ADES");}' 
+                        class="price" id="ADES"> 
+                    </input>
+                </div>
+                <div class="product"> 
+                    <span class="name">Hersheys</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("HER");}' 
+                        class="price" id="HER"> 
+                    </input>
+                </div>
+                <div class="product"> 
+                    <span class="name">Coca Cola</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("COCAC");}' 
+                        class="price" id="COCAC"> 
+                    </input>
+                </div>
+                <div class="product"> 
+                    <span class="name">Pepsi lata</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("PEPSIC");}' 
+                        class="price" id="PEPSIC"> 
+                    </input>
+                </div>
+                <div class="product"> 
+                    <span class="name">Tonicol</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("TONIC");}' 
+                        class="price" id="TONIC"> 
+                    </input>
+                </div>
+                <div class="product"> 
+                    <span class="name">V8 Splash</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("V8");}' 
+                        class="price" id="V8"> 
+                    </input>
+                </div>
+                <div class="product"> 
+                    <span class="name">Cactus</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("AGCACCU");}' 
+                        class="price" id="AGCACCU"> 
+                    </input>
+                </div>
+                <div class="product"> 
+                    <span class="name">Agua</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("AGIM1500C");}' 
+                        class="price" id="AGIM1500C"> 
+                    </input>
+                </div>
+                <div class="product"> 
+                    <span class="name">Yakult</span>
+                    <input type="text" 
+                        onkeypress='return event.charCode >= 46 && event.charCode <= 57' 
+                        onkeydown='if (event.keyCode == 13) {updatePrice("YAK30");}' 
+                        class="price" id="YAK30"> 
+                    </input>
+                </div>
+            </div>
+            <div class="col-sm-9" id="secondColumn">
+                <h3 class="title">Promociones del día</h3>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM1");}' 
+                            class="text_over_image" id="PROM1p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM1");}' 
+                            class="price_over_image" id="PROM1c"> 
+                        </input>
+                        <img class="promo" id="PROM1i" src="https://image.ibb.co/cePsAG/promo1.png"> 
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM2");}' 
+                            class="text_over_image" id="PROM2p"> 
+                        </input> 
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM2");}' 
+                            class="price_over_image" id="PROM2c"> 
+                        </input>
+                        <img class="promo" id="PROM2i" src="https://image.ibb.co/cePsAG/promo1.png">
+                    </div>
+                    <div class="col-sm-3" id="promo3">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM3");}' 
+                            class="text_over_image" id="PROM3p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM3");}' 
+                            class="price_over_image" id="PROM3c"> 
+                        </input>
+                        <img class="promo" id="PROM3i" src="https://image.ibb.co/cePsAG/promo1.png">   
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM4");}' 
+                            class="text_over_image" id="PROM4p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM4");}' 
+                            class="price_over_image" id="PROM4c"> 
+                        </input>
+                        <img class="promo" id="PROM4i" src="https://image.ibb.co/cePsAG/promo1.png">     
+                    </div>
+                </div>
+                <div class="row" id="smallRow">
+                    <div class="col-sm-3">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM5");}' 
+                            class="text_over_image" id="PROM5p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM5");}' 
+                            class="price_over_image" id="PROM5c"> 
+                        </input>
+                        <img class="promo" id="PROM5i" src="https://image.ibb.co/cePsAG/promo1.png">
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM6");}' 
+                            class="text_over_image" id="PROM6p"> 
+                        </input> 
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM6");}' 
+                            class="price_over_image" id="PROM6c"> 
+                        </input>
+                        <img class="promo" id="PROM6i" src="https://image.ibb.co/cePsAG/promo1.png">        
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM7");}' 
+                            class="text_over_image" id="PROM7p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM7");}' 
+                            class="price_over_image" id="PROM7c"> 
+                        </input>
+                        <img class="promo" id="PROM7i" src="https://image.ibb.co/cePsAG/promo1.png">   
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM8");}' 
+                            class="text_over_image" id="PROM8p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM8");}' 
+                            class="price_over_image" id="PROM8c"> 
+                        </input>
+                        <img class="promo" id="PROM8i" src="https://image.ibb.co/cePsAG/promo1.png">    
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM9");}' 
+                            class="text_over_image" id="PROM9p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM9");}' 
+                            class="price_over_image" id="PROM9c"> 
+                        </input>
+                        <img class="promo" id="PROM9i" src="https://image.ibb.co/cePsAG/promo1.png">       
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM10");}' 
+                            class="text_over_image" id="PROM10p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM10");}' 
+                            class="price_over_image" id="PROM10c"> 
+                        </input>
+                        <img class="promo" id="PROM10i" src="https://image.ibb.co/cePsAG/promo1.png">   
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM11");}' 
+                            class="text_over_image" id="PROM11p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM11");}' 
+                            class="price_over_image" id="PROM11c"> 
+                        </input>
+                        <img class="promo" id="PROM11i" src="https://image.ibb.co/cePsAG/promo1.png">       
+                    </div>
+                </div>
+                <div class="row" id="smallRow">
+                    <div class="col-sm-3">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM12");}' 
+                            class="text_over_image" id="PROM12p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM12");}' 
+                            class="price_over_image" id="PROM12c"> 
+                        </input>
+                        <img class="promo" id="PROM12i" src="https://image.ibb.co/cePsAG/promo1.png">    
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM13");}' 
+                            class="text_over_image" id="PROM13p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM13");}' 
+                            class="price_over_image" id="PROM13c"> 
+                        </input>
+                        <img class="promo" id="PROM13i" src="https://image.ibb.co/cePsAG/promo1.png">        
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM14");}' 
+                            class="text_over_image" id="PROM14p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM14");}' 
+                            class="price_over_image" id="PROM14c"> 
+                        </input>
+                        <img class="promo" id="PROM14i" src="https://image.ibb.co/cePsAG/promo1.png">    
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+
+</body>
+<script>
+    function updatePrice(id) {
+        var database = firebase.database().ref('productos/' + id + '/costo');
+        database.set(document.getElementById(id).value).then(function(){
+            document.getElementById(id).blur();
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center" >' + id + ' ha sido actualizado exitosamente</p>',
+                closeButton: false,
+                backdrop: false
+            });
+            setTimeout(function(){ dialog.modal('hide')}, 1000);
+        });
+    }
+    function updatePromoProduct(id) {
+        var database = firebase.database().ref('promociones/' + id + '/producto');
+        database.set(document.getElementById(id.concat("p")).value).then(function(){
+            document.getElementById(id.concat("p")).blur();
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center" >' + id + ' ha sido actualizado exitosamente</p>',
+                closeButton: false,
+                backdrop: false
+            });
+            setTimeout(function(){ dialog.modal('hide')}, 1000);
+        });
+    }
+    function updatePromoPrice(id) {
+        var database = firebase.database().ref('promociones/' + id + '/precio');
+        database.set(document.getElementById(id.concat("c")).value).then(function(){
+            document.getElementById(id.concat("c")).blur();
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center" >' + id + ' ha sido actualizado exitosamente</p>',
+                closeButton: false,
+                backdrop: false
+            });
+            setTimeout(function(){ dialog.modal('hide')}, 1000);
+        });
+    }
+
+    /*
+    setInterval(function(){
+        if(document.getElementById("PROM5i").src == "https://image.ibb.co/cePsAG/promo1.png")
+            document.getElementById("PROM5i").src = "https://image.ibb.co/mYD0fG/promo6.png";
+        else
+            document.getElementById("PROM5i").src = "https://image.ibb.co/cePsAG/promo1.png"
+    }, 600);
+    */
+</script>
+</html>
+

@@ -1,0 +1,57 @@
+@font-face {
+    font-family: GillSansMTCondBold;
+    src: url(GillSansMTCondensedBold.ttf);
+}
+
+@font-face {
+    font-family: GillSansMTCond;
+    src: url(GillSansStd-Condensed.otf);
+}
+
+.container-fluid {
+    padding-top: 20px;
+    padding-left: 40px;
+    padding-right: 0px;
+}
+
+.col-sm-3 {
+    padding-left: 10px;
+    padding-right: 0px;
+}
+
+#secondColumn .product{
+    line-height: 320%;          
+}
+
+#thirdColumn .product{
+    line-height: 310%;          
+}
+
+.title {
+    font-family: GillSansMTCondBold;
+    font-size: 50px;    
+    color: red;
+    line-height: 80%;
+    padding-bottom: 5px;
+    margin-top: 5px;
+}
+
+.product{
+    line-height: 325%;          
+}
+
+.name {
+    font-family: GillSansMTCond;
+    font-size: 45px;   
+    color: black;
+    line-height: 0px;                  
+}
+
+.price {
+    font-family: GillSansMTCond;
+    font-size: 35px;   
+    color: rgb(185, 154, 0);
+    padding-left: 10px;
+    line-height: 0px;                      
+}
+

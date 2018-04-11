@@ -1,0 +1,122 @@
+@font-face {
+    font-family: GillSansMTCondBold;
+    src: url(GillSansMTCondensedBold.ttf);
+}
+
+@font-face {
+    font-family: GillSansMTCond;
+    src: url(GillSansStd-Condensed.otf);
+}
+
+body{
+    width: 1280px;
+    height: 720px;
+    margin: auto;
+    margin-top: 7%;
+}
+
+.container-fluid {
+    padding-top: 20px;
+    padding-left: 10px;
+    padding-right: 40px;
+}
+
+#firstColumn{
+    padding-left: 40px;
+    padding-right: 10px;
+}
+
+#secondColumn {
+    padding-left: 0px;
+}
+
+#secondColumn .col-sm-3 {
+    padding-left: 0px;
+    padding-right: 0px;   
+}
+
+#secondColumn .title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-family: GillSansMTCondBold;
+    font-size: 50px;    
+    color: red;
+    line-height: 80%;
+    padding-bottom: 5px;
+    margin-top: 5px;
+}
+
+.product{
+    line-height: 325%;          
+}
+
+.name {
+    font-family: GillSansMTCond;
+    font-size: 45px;   
+    color: black;
+    line-height: 0px;                  
+}
+
+.price {
+    font-family: GillSansMTCond;
+    font-size: 35px;   
+    color: rgb(185, 154, 0);
+    padding-left: 10px;
+    line-height: 0px;
+    display:inline-block;    
+    width: 70px;  
+    border: 0px;                        
+}
+
+.promo {
+    width: 230px;
+    height: 150px;
+    display: block;    
+    margin: auto;
+}
+
+#smallRow {
+    margin-left: 11% !important;
+    width: 100%;
+}
+
+#smallRow .col-sm-3 {
+    margin-left: 4px; 
+    margin-right: 4px; 
+}
+
+.text_over_image {
+    font-family: GillSansMTCond;
+    font-size: 45px;
+    color: white;    
+    position: absolute;
+    text-align: center;
+    margin-top: 15%;
+    line-height: 70%;                      
+    display:inline-block;    
+    width: 100%;  
+    border: 0px;
+    background-color: #FFFFFF00;
+}
+
+.price_over_image {
+    font-family: GillSansMTCondBold;
+    font-size: 50px;
+    color: yellow;    
+    position: absolute;
+    text-align: center;
+    margin-top: 30%;
+    line-height: 70%;                      
+    display:inline-block;    
+    width: 100%;   
+    border: 0px;  
+    background-color: #FFFFFF00;    
+}
+
+.checkbox {
+    z-index: 1;
+    position: absolute;
+}

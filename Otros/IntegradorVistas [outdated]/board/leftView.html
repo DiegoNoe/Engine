@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Left View</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="leftView.css">  
+
+    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+    <script>
+        var config = {
+            apiKey: "AIzaSyDrVZ3499rhvfFpxfRbU-wqJ-ZUN0-_ez0",
+            authDomain: "cremeria-imperial.firebaseapp.com",
+            databaseURL: "https://cremeria-imperial.firebaseio.com",
+            projectId: "cremeria-imperial",
+            storageBucket: "cremeria-imperial.appspot.com",
+            messagingSenderId: "445465872507"
+        };
+        firebase.initializeApp(config);
+        
+        var database = firebase.database().ref('productos');
+        database.on('value', function(snapshot) {
+            //Carnes Frías
+            document.getElementById("CHOPI").innerHTML = "$" + snapshot.val().CHOPI.costo;
+            document.getElementById("CHOIM").innerHTML = "$" + snapshot.val().CHOIM.costo;
+            document.getElementById("CHORA").innerHTML = "$" + snapshot.val().CHORA.costo;
+            document.getElementById("CHOHO").innerHTML = "$" + snapshot.val().CHOHO.costo;
+            document.getElementById("CHUL").innerHTML = "$" + snapshot.val().CHUL.costo;
+            document.getElementById("TOCO").innerHTML = "$" + snapshot.val().TOCO.costo;
+            document.getElementById("SALA").innerHTML = "$" + snapshot.val().SALA.costo;
+            document.getElementById("PEPE").innerHTML = "$" + snapshot.val().PEPE.costo;
+            document.getElementById("LOMO").innerHTML = "$" + snapshot.val().LOMO.costo;
+            document.getElementById("ARRA").innerHTML = "$" + snapshot.val().ARRA.costo;
+            document.getElementById("ARRAP").innerHTML = "$" + snapshot.val().ARRAP.costo;
+            document.getElementById("HAMB").innerHTML = "$" + snapshot.val().HAMB.costo;
+            document.getElementById("COD").innerHTML = "$" + snapshot.val().COD.costo;
+            document.getElementById("CHIBO").innerHTML = "$" + snapshot.val().CHIBO.costo;
+            //Jamones
+            //document.getElementById("").innerHTML = "$" + snapshot.val()..costo;
+            document.getElementById("JATY").innerHTML = "$" + snapshot.val().JATY.costo;
+            document.getElementById("QUEPU").innerHTML = "$" + snapshot.val().QUEPU.costo;
+            document.getElementById("JAHOV").innerHTML = "$" + snapshot.val().JAHOV.costo;
+            document.getElementById("JAIMP").innerHTML = "$" + snapshot.val().JAIMP.costo;
+            //Jamones de pavo
+            document.getElementById("JASAN").innerHTML = "$" + snapshot.val().JASAN.costo;
+            document.getElementById("JAHUF").innerHTML = "$" + snapshot.val().JAHUF.costo;
+            document.getElementById("JAVIP").innerHTML = "$" + snapshot.val().JAVIP.costo;
+            document.getElementById("JANOR").innerHTML = "$" + snapshot.val().JANOR.costo;
+            document.getElementById("JATP").innerHTML = "$" + snapshot.val().JATP.costo;
+            document.getElementById("JACOV").innerHTML = "$" + snapshot.val().JACOV.costo;
+            document.getElementById("JALON").innerHTML = "$" + snapshot.val().JALON.costo;
+            //Salchichas tipo viena
+            //document.getElementById("").innerHTML = "$" + snapshot.val()..costo;
+            //document.getElementById("").innerHTML = "$" + snapshot.val()..costo;
+            //Salchichas de pavo
+            //document.getElementById("").innerHTML = "$" + snapshot.val()..costo;
+            //document.getElementById("").innerHTML = "$" + snapshot.val()..costo;
+            //document.getElementById("").innerHTML = "$" + snapshot.val()..costo;
+            //document.getElementById("").innerHTML = "$" + snapshot.val()..costo;
+            //document.getElementById("").innerHTML = "$" + snapshot.val()..costo;
+            //document.getElementById("").innerHTML = "$" + snapshot.val()..costo;
+            //document.getElementById("").innerHTML = "$" + snapshot.val()..costo;
+            //Manteca
+            document.getElementById("MAN3").innerHTML = "$" + snapshot.val().MAN3.costo;
+            document.getElementById("MAN6").innerHTML = "$" + snapshot.val().MAN6.costo;
+            document.getElementById("MAN13").innerHTML = "$" + snapshot.val().MAN13.costo;
+            //Tostadas
+            document.getElementById("TOSNPAQ").innerHTML = "$" + snapshot.val().TOSNPAQ.costo;
+            document.getElementById("TOSDPAQ").innerHTML = "$" + snapshot.val().TOSDPAQ.costo;
+            //Pollo, Papas
+            //document.getElementById("").innerHTML = "$" + snapshot.val()..costo;
+            //document.getElementById("").innerHTML = "$" + snapshot.val()..costo;
+            //document.getElementById("").innerHTML = "$" + snapshot.val()..costo;
+        });
+    
+    </script>
+
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3" id="firstColumn">
+                <h3 class="title">Carnes frías</h3>  
+                <div class="product">                        
+                    <span class="name">Chorizo Pierna</span>
+                    <span  class="price" id="CHOPI">  </span>
+                </div>
+                <div class="product">                
+                    <span class="name">Chorizo Imperial</span>
+                    <span  class="price" id="CHOIM">  </span>  
+                </div>
+                <div class="product">                               
+                    <span class="name">Chorizo Ranchero</span>
+                    <span  class="price" id="CHORA">  </span>  
+                </div>
+                <div class="product">                               
+                    <span class="name">Chorizo hoja</span>
+                    <span  class="price" id="CHOHO">  </span>
+                </div>
+                <div class="product">
+                    <span class="name">Chuleta</span>
+                    <span  class="price" id="CHUL">  </span>
+                </div>
+                <div class="product">                        
+                    <span class="name">Tocino</span>
+                    <span  class="price" id="TOCO">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Salami</span>
+                    <span  class="price" id="SALA">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Peperoni</span>
+                    <span  class="price" id="PEPE">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Lomo Imperial</span>
+                    <span  class="price" id="LOMO">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Arrachera</span>
+                    <span  class="price" id="ARRA">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Puntas Arrach.</span>
+                    <span  class="price" id="ARRAP">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">C. Hambuerguesa</span>
+                    <span  class="price" id="HAMB">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Codorniz</span>
+                    <span  class="price" id="COD">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Chicharron</span>
+                    <span  class="price" id="CHIBO">  </span>
+                </div>
+            </div>
+            <div class="col-sm-3" id="secondColumn">
+                <h3 class="title">Jamones</h3>  
+                <div class="product">                        
+                    <span class="name">Virginia ame.</span>
+                    <span  class="price" id="">  </span>
+                </div>
+                <div class="product">                
+                    <span class="name">York Fud</span>
+                    <span  class="price" id="JATY">  </span>  
+                </div>
+                <div class="product">                               
+                    <span class="name">Queso puerco</span>
+                    <span  class="price" id="QUEPU">  </span>  
+                </div>
+                <div class="product">                               
+                    <span class="name">Viva horneado</span>
+                    <span  class="price" id="JAHOV">  </span>
+                </div>
+                <div class="product">
+                    <span class="name">Imperial</span>
+                    <span  class="price" id="JAIMP">  </span>
+                </div>
+                <h3 class="title">Jamones <br> de pavo</h3>                  
+                <div class="product">                        
+                    <span class="name">Pechuga San R</span>
+                    <span  class="price" id="JASAN">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Ahumado Fud.</span>
+                    <span  class="price" id="JAHUF">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Virginia</span>
+                    <span  class="price" id="JAVIP">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Norteño</span>
+                    <span  class="price" id="JANOR">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Tradicional</span>
+                    <span  class="price" id="JATP">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Cocido Viva</span>
+                    <span  class="price" id="JACOV">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Lonchero</span>
+                    <span  class="price" id="JALON">  </span>
+                </div>
+            </div>
+            <div class="col-sm-3" id="thirdColumn">
+                <h3 class="title">Salchichas tipo viena</h3>  
+                <div class="product">                        
+                    <span class="name">Hot Dog Fud</span>
+                    <span  class="price" id="">  </span>
+                </div>
+                <div class="product">                
+                    <span class="name">Viva</span>
+                    <span  class="price" id="">  </span>  
+                </div>
+                <h3 class="title">Salchichas <br> de pavo</h3>                  
+                <div class="product">                               
+                    <span class="name">Jumbo Fud</span>
+                    <span  class="price" id="">  </span>  
+                </div>
+                <div class="product">                               
+                    <span class="name">Viva</span>
+                    <span  class="price" id="">  </span>
+                </div>
+                <div class="product">
+                    <span class="name">Fud</span>
+                    <span  class="price" id="">  </span>
+                </div>
+                <div class="product">                        
+                    <span class="name">Frankfurt</span>
+                    <span  class="price" id="">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Salchirica</span>
+                    <span  class="price" id="">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">San Rafael ½k</span>
+                    <span  class="price" id="">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Fud ½k</span>
+                    <span  class="price" id="">  </span>
+                </div>
+                <h3 class="title">Latería</h3>                  
+                <div class="product"> 
+                    <span class="name">Gran surtido</span>
+                    <span  class="price" id=""></span>
+                </div>
+            </div>
+            <div class="col-sm-3" id="fourthColumn">
+                <h3 class="title">Huevo</h3>  
+                <div class="product">                        
+                    <span class="name">Kilo</span>
+                    <span class="price">$28.5</span>
+                </div>
+                <div class="product">                
+                    <span class="name">Caja</span>
+                    <span class="price">$26.5k</span>  
+                </div>
+                <h3 class="title">Manteca</h3>                  
+                <div class="product">                               
+                    <span class="name">Chica</span>
+                    <span class="price" id="MAN3">  </span>  
+                </div>
+                <div class="product">                               
+                    <span class="name">Med.</span>
+                    <span  class="price" id="MAN6">  </span>
+                </div>
+                <div class="product">
+                    <span class="name">Grande</span>
+                    <span  class="price" id="MAN13">  </span>
+                </div>
+                <h3 class="title">Tostadas</h3>                  
+                <div class="product">                        
+                    <span class="name">Tradicional</span>
+                    <span  class="price" id="TOSNPAQ">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Deshidratada</span>
+                    <span  class="price" id="TOSDPAQ">  </span>
+                </div>
+                <h3 class="title">Pollo, Papas</h3>                                  
+                <div class="product"> 
+                    <span class="name">Pollo emp.</span>
+                    <span  class="price" id="">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Nuggets</span>
+                    <span  class="price" id="">  </span>
+                </div>
+                <div class="product"> 
+                    <span class="name">Francesa</span>
+                    <span  class="price" id="">  </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
