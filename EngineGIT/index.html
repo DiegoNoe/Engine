@@ -379,8 +379,10 @@
                         order[orderIndex][5] = JSON.search(products, '//' + $(this).data("id"))[0].tipo;
 
                         //verificating quantity
-                        if(order[orderIndex][1] == "" || order[orderIndex][1] == "0")
+                        if(order[orderIndex][1] == "" || order[orderIndex][1] == "0") {
+                            alert("Un producto no tiene cantidad, llena todas las cantidades.");
                             verificatedOrder = false;
+                        }
 
                         orderIndex++;
                     }
@@ -429,6 +431,10 @@
         function generatePDF() {
             //set PDF defaults
             var order = getOrderProducts();
+            if($("#inputName").val() == "") {
+                alert("La nota no tiene nombre, ingresa uno.");
+                verificatedOrder = false;
+            }
             if(verificatedOrder) {
                 var doc = new jsPDF({
                     orientation: 'p',
@@ -548,8 +554,6 @@
 
                 //erase current order
                 eraseOrder();
-            } else {
-                alert("Un producto no tiene cantidad, llena todas las cantidades.");
             }
         }
 
