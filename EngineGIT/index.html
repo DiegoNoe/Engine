@@ -397,7 +397,7 @@
             doc.addPage();
             addTimePDF(doc);
             addNamePDF(doc);
-            doc.addImage(generateQR($("#inputName").val()), 'JPEG', 2, 196, 15, 15);
+            doc.addImage(generateQR($("#inputName").val()), 'JPEG', 4.5, 196.8, 12, 12);
         }
 
         //adds date and time to the top right corner
@@ -447,9 +447,14 @@
                 doc.addFont('GillSansMTCondensedBold.ttf', "Gill Sans MT Condensed Negrita", "normal");
                 doc.setFont("Gill Sans MT Condensed Negrita");
                 
+                //add defaults
                 addTimePDF(doc);
                 addNamePDF(doc);
                 doc.addImage(generateQR($("#inputName").val()), 'JPEG', 4.5, 196.8, 12, 12);
+                
+                //add copy
+                addPagePDF(doc);
+                doc.setPage(1);
 
                 var shortenedUnits = {
                     KILO: "KG",
@@ -464,23 +469,36 @@
                 var firstLineYPosition = 46.5;
                 var lineHeight = 8.54;
                 var currentLine = 0;
+                var pagesQuantity = 1;
                 for(var i = 0; i < order.length; i++) {
+
                     //adds new page if necessary
                     if(currentLine == 18 || (currentLine == 17 && order[i][4] != "")) {
+                        pagesQuantity++;
                         addPagePDF(doc);
+                        addPagePDF(doc);
+                        doc.setPage(pagesQuantity * 2 - 1);
                         currentLine = 0;
                     } 
 
                     //quantity and unit
                     doc.setFont("Gill Sans Std Condensed");
                     doc.setFontSize(16);
-                    doc.text(15, firstLineYPosition + (currentLine * lineHeight), order[i][1] + " " + shortenedUnits[order[i][2]], null, null, "center");                
+                    doc.setPage(pagesQuantity * 2 - 1);              
+                    doc.text(15, firstLineYPosition + (currentLine * lineHeight), order[i][1] + " " + shortenedUnits[order[i][2]], null, null, "center");
+                    doc.setPage(pagesQuantity * 2);    
+                    doc.text(15, firstLineYPosition + (currentLine * lineHeight), order[i][1] + " " + shortenedUnits[order[i][2]], null, null, "center");
+          
                     
                     //product price * quantity
                     doc.setFont("Gill Sans MT Condensed Negrita");
                     product = JSON.search(products, '//' + order[i][0]);
                     if(order[i][5] != "porPesarCamara" && order[i][5] != "porPesarAfuera") {
+                        doc.setPage(pagesQuantity * 2 - 1);              
                         doc.text(119.5, firstLineYPosition + (currentLine * lineHeight) + .5, (product[0].costo * order[i][1]).toLocaleString('en-US'), null, null, "center");
+                        doc.setPage(pagesQuantity * 2);    
+                        doc.text(119.5, firstLineYPosition + (currentLine * lineHeight) + .5, (product[0].costo * order[i][1]).toLocaleString('en-US'), null, null, "center");
+
                         total += product[0].costo * order[i][1];
                     } else
                         calculable = false;
@@ -506,13 +524,23 @@
                     if(order[i][4] != "") {
                         //notes
                         doc.setFontSize(10);
+                        doc.setPage(pagesQuantity * 2 - 1);              
                         doc.text(26.3, firstLineYPosition + (currentLine * lineHeight) + 1.5, order[i][4]);
+                        doc.setPage(pagesQuantity * 2);              
+                        doc.text(26.3, firstLineYPosition + (currentLine * lineHeight) + 1.5, order[i][4]);
+
                         //description
                         doc.setFontSize(16);
+                        doc.setPage(pagesQuantity * 2 - 1);              
+                        doc.text(26, firstLineYPosition + (currentLine * lineHeight) - 1.5, order[i][3]);
+                        doc.setPage(pagesQuantity * 2);              
                         doc.text(26, firstLineYPosition + (currentLine * lineHeight) - 1.5, order[i][3]);
                     } else {
                         //description
                         doc.setFontSize(16);
+                        doc.setPage(pagesQuantity * 2 - 1);              
+                        doc.text(26, firstLineYPosition + (currentLine * lineHeight), order[i][3]);
+                        doc.setPage(pagesQuantity * 2);              
                         doc.text(26, firstLineYPosition + (currentLine * lineHeight), order[i][3]);
                     }
 
@@ -525,14 +553,24 @@
                     //if product needs to be weight, then line
                     if(order[i][5] == "porPesarCamara" || order[i][5] == "porPesarAfuera") {
                         doc.setLineWidth(0.35);
+                        doc.setPage(pagesQuantity * 2 - 1);              
+                        doc.line(93, firstLineYPosition + (currentLine * lineHeight) + 2.2, 108, firstLineYPosition + (currentLine * lineHeight) + 2.2);
+                        doc.setPage(pagesQuantity * 2);              
                         doc.line(93, firstLineYPosition + (currentLine * lineHeight) + 2.2, 108, firstLineYPosition + (currentLine * lineHeight) + 2.2);
                     }
                     //if product is being supplied by suppliers then draw cirlce
-                    if(order[i][5] == "porPesarCamara" || order[i][5] == "yaPesadoCamara")
+                    if(order[i][5] == "porPesarCamara" || order[i][5] == "yaPesadoCamara") {
+                        doc.setPage(pagesQuantity * 2 - 1);              
                         drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "blue");
-                    else if(order[i][5] == "porPesarAfuera" || order[i][5] == "yaPesadoAfuera")
+                        doc.setPage(pagesQuantity * 2);              
+                        drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "blue");
+                    }
+                    else if(order[i][5] == "porPesarAfuera" || order[i][5] == "yaPesadoAfuera"){
+                        doc.setPage(pagesQuantity * 2 - 1);              
                         drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "red");
-
+                        doc.setPage(pagesQuantity * 2);              
+                        drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "red");
+                    }
 
                     currentLine++;
                 }
@@ -542,9 +580,16 @@
                 doc.setFontSize(25);
                 if(calculable) {
                     if((total / 1000) >= 1) {
+                        doc.setPage(pagesQuantity * 2 - 1);              
                         doc.text(96, 206, total.toLocaleString('en-US'));
-                    } else
+                        doc.setPage(pagesQuantity * 2);  
+                        doc.text(96, 206, total.toLocaleString('en-US'));            
+                    } else {
+                        doc.setPage(pagesQuantity * 2 - 1);              
                         doc.text(96, 206, total.toString());
+                        doc.setPage(pagesQuantity * 2);              
+                        doc.text(96, 206, total.toString());
+                    }
                 }
 
                 //autoprints PDF in a new tab
