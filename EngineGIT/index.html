@@ -153,7 +153,7 @@
         function searchProduct(searchResult) {            
             var searchItem = "";
             $("#searchOptions").empty();
-            for(var i = 0; i < searchResult.length && i < 10; i++) {
+            for(var i = 0; i < searchResult.length && i < 9; i++) {
                 searchItem = 
                     '<button class="list-group-item row btn-default" onclick="addProductByID(&#39;' + searchResult[i].clave + '&#39;)">' +
                         '<div class="col-sm-2">' + searchResult[i].clave + '</div>' +
@@ -456,8 +456,7 @@
                     PIEZA: "PZ",
                     CAJA: "CJ",
                     CUB: "CUB",
-                    EXB: "EXB",
-                    LATA: "PZ"
+                    EXB: "EXB"
                 };
 
                 var calculable = true;
