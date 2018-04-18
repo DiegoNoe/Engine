@@ -140,12 +140,17 @@
 
         //inputSearch search onEnter
         $("#inputSearch").on('keyup', function (e) {
-            var searchResult = JSON.search(products, '//*[contains(clave, "' + $('#inputSearch').val() + '")]|//*[contains(descripcion, "' + $('#inputSearch').val() + '")]');
-            $("#searchOptions").empty();
-            if($('#inputSearch').val() != "") {
-                searchProduct(searchResult);
-                if (e.keyCode == 13 && searchResult.length > 0)
-                    addProduct(searchResult[0]);
+            if (e.keyCode == 192) {
+                $("#inputName").focus();
+                $("#inputSearch").val($("#inputSearch").val().substring(0, $("#inputSearch").val().length - 1));
+            } else {
+                var searchResult = JSON.search(products, '//*[contains(clave, "' + $('#inputSearch').val() + '")]|//*[contains(descripcion, "' + $('#inputSearch').val() + '")]');
+                $("#searchOptions").empty();
+                if($('#inputSearch').val() != "") {
+                    searchProduct(searchResult);
+                    if (e.keyCode == 13 && searchResult.length > 0)
+                        addProduct(searchResult[0]);
+                }
             }
         });
 
@@ -681,6 +686,13 @@
 
         //starst listening to connection stauts
         checkConnection();
+        //http://keycode.info
+        $(document).keydown(function(e){
+            if (e.keyCode == 187)
+                generatePDF();
+            else if (e.keyCode == 219)
+                $("#inputName").focus();
+        });
 
     </script>
 </body>
