@@ -140,10 +140,13 @@
 
         //inputSearch search onEnter
         $("#inputSearch").on('keyup', function (e) {
-            if (e.keyCode == 192) {
+            if (e.keyCode == 219 || e.keyCode == 111) {
                 $("#inputName").focus();
                 $("#inputSearch").val($("#inputSearch").val().substring(0, $("#inputSearch").val().length - 1));
-            } else {
+            } else if (e.keyCode == 221 || e.keyCode == 106) {
+                generatePDF();
+            }
+            else {
                 var searchResult = JSON.search(products, '//*[contains(clave, "' + $('#inputSearch').val() + '")]|//*[contains(descripcion, "' + $('#inputSearch').val() + '")]');
                 $("#searchOptions").empty();
                 if($('#inputSearch').val() != "") {
@@ -688,9 +691,9 @@
         checkConnection();
         //http://keycode.info
         $(document).keydown(function(e){
-            if (e.keyCode == 187)
+            if (e.keyCode == 221 || e.keyCode == 106)
                 generatePDF();
-            else if (e.keyCode == 219)
+            else if (e.keyCode == 219 || e.keyCode == 111)
                 $("#inputName").focus();
         });
 
