@@ -143,7 +143,9 @@
             if (e.keyCode == 219 || e.keyCode == 111) {
                 $("#inputName").focus();
                 $("#inputSearch").val($("#inputSearch").val().substring(0, $("#inputSearch").val().length - 1));
-                $("#inputName").val($("#inputName").val().substring(0, $("#inputName").val().length - 1));
+                setTimeout(function(){
+                    $("#inputName").val($("#inputName").val().substring(0, $("#inputName").val().length - 1));
+                }, 100);
             } else if (e.keyCode == 221 || e.keyCode == 106) {
                 generatePDF();
             }
@@ -696,7 +698,9 @@
                 generatePDF();
             else if (e.keyCode == 219 || e.keyCode == 111) {
                 $("#inputName").focus();
-                $("#inputName").val($("#inputName").val().substring(0, $("#inputName").val().length - 1));
+                setTimeout(function(){
+                    $("#inputName").val($("#inputName").val().substring(0, $("#inputName").val().length - 1));
+                }, 100);
             }
         });
 
