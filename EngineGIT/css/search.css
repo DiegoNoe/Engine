@@ -10,10 +10,6 @@
     src: url(GillSansStd-Condensed.otf);
 }
 
-input {
-    text-transform: uppercase;
-}
-
 .container-fluid {
     margin-top: 5%;
     margin-left: 10%;
