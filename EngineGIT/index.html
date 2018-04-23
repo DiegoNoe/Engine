@@ -515,6 +515,7 @@
                     doc.setFontSize(16);
                     doc.setPage(pagesQuantity * 2 - 1);     
 
+                    /*
                     if((order[i][1] % 1)== .5) {
                         doc.setFont("helvetica");
                         console.log(Math.floor(order[i][1]) + " ½");
@@ -522,6 +523,7 @@
                         doc.setPage(pagesQuantity * 2);    
                         doc.text(15, firstLineYPosition + (currentLine * lineHeight), Math.floor(order[i][1]) + " ½" + " " + shortenedUnits[order[i][2]], null, null, "center");
                     }
+                    */
                         
                     doc.text(15, firstLineYPosition + (currentLine * lineHeight), order[i][1] + " " + shortenedUnits[order[i][2]], null, null, "center");
                     doc.setPage(pagesQuantity * 2);    
