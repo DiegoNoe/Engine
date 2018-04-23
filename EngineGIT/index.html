@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">  
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/search.css">  
 
     <script language="javascript" type="text/javascript" src="js/jquery.min.js"></script>
@@ -246,7 +246,7 @@
             }
 
             //checks for valid units
-            var validUnits = ["KILO", "PIEZA", "CAJA", "CUB", "EXB"];
+            var validUnits = ["KILO", "PIEZA", "CAJA", "CUB", "EXB", "PROMO"];
             if(form.elements[2].value != "" && !validUnits.includes(form.elements[2].value)) {
                 messageLabel.innerHTML = "LA UNIDAD UNICAMENTE PUEDE SER: ";
                 for(var i = 0; i < validUnits.length - 1; i++)
@@ -255,6 +255,12 @@
                 verificated = false;
             }
 
+            //checks for paces in id
+            if(form.elements[1].value != " ") {
+                messageLabel.innerHTML = "LA CLAVE NO PUEDE TENER ESPACIOS";
+                verificated = false;
+            }
+            
             //checks for existing ids
             if(form.elements[1].value != "") {
                 database.child(form.elements[1].value).once('value', function(snapshot) {
@@ -347,8 +353,12 @@
 
             //inputQuantity enter sequence
             $('#dynamic-list').find('input').first().on('keydown', function (e) {
-                if (e.keyCode == 13)
-                    $(this).parent().nextAll().eq(2).children().focus();
+                if (e.keyCode == 13) {
+                    $("#inputSearch").focus();
+
+                    //to notes focus
+                    //$(this).parent().nextAll().eq(2).children().focus();
+                }
             });
             
             //inputNotes enter sequence with S shortcut
@@ -357,6 +367,12 @@
                 if (e.keyCode == 13) {
                     if(inputNotes.val() == "S")
                         inputNotes.val("SURTIDO");
+                    else if(inputNotes.val() == "K")
+                        inputNotes.val("KILEADO");
+                    else if(inputNotes.val() == "M")
+                        inputNotes.val("EN MEDIOS");
+                    else if(inputNotes.val() == "C")
+                        inputNotes.val("EN CUARTOS");
                     $("#inputSearch").focus();
                 }
             });
@@ -419,14 +435,15 @@
             doc.text(78, 22.5, date.getDate().toString());
             doc.text(89, 22.5, months[date.getMonth()]);
             doc.text(100, 22.5, date.getFullYear().toString());
-            doc.text(114, 22.5, date.getHours() + ":" + date.getMinutes());
+            var hourWithMinutes = new Date().toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: false });
+            doc.text(114, 22.5, hourWithMinutes);
         }
 
         //adds the name the de pff
         function addNamePDF(doc) {
             var name = $("#inputName").val();
             doc.setFontSize(22);
-            doc.text(27, 34, name);
+            doc.text(27, 34, name + "2½ CJ");
         }
 
         function drawCricle(doc, YCoordinate, validColor) {
@@ -472,7 +489,8 @@
                     PIEZA: "PZ",
                     CAJA: "CJ",
                     CUB: "CUB",
-                    EXB: "EXB"
+                    EXB: "EXB",
+                    PROMO: "PR"
                 };
 
                 var calculable = true;
@@ -495,7 +513,16 @@
                     //quantity and unit
                     doc.setFont("Gill Sans Std Condensed");
                     doc.setFontSize(16);
-                    doc.setPage(pagesQuantity * 2 - 1);              
+                    doc.setPage(pagesQuantity * 2 - 1);     
+
+                    if((order[i][1] % 1)== .5) {
+                        doc.setFont("helvetica");
+                        console.log(Math.floor(order[i][1]) + " ½");
+                        doc.text(15, firstLineYPosition + (currentLine * lineHeight), Math.floor(order[i][1]) + " ½" + " " + shortenedUnits[order[i][2]], null, null, "center");
+                        doc.setPage(pagesQuantity * 2);    
+                        doc.text(15, firstLineYPosition + (currentLine * lineHeight), Math.floor(order[i][1]) + " ½" + " " + shortenedUnits[order[i][2]], null, null, "center");
+                    }
+                        
                     doc.text(15, firstLineYPosition + (currentLine * lineHeight), order[i][1] + " " + shortenedUnits[order[i][2]], null, null, "center");
                     doc.setPage(pagesQuantity * 2);    
                     doc.text(15, firstLineYPosition + (currentLine * lineHeight), order[i][1] + " " + shortenedUnits[order[i][2]], null, null, "center");
@@ -513,22 +540,6 @@
                         total += product[0].costo * order[i][1];
                     } else
                         calculable = false;
-
-                    /*
-                    //digits alignment
-                    //product price * quantity
-                    doc.setFont("Gill Sans MT Condensed Negrita");
-                    product = JSON.search(products, '//' + order[i][0]);
-                    if(order[i][5] != "porPesar") {
-                        var costoTotal = product[0].costo * order[i][1];
-                        if(costoTotal % 1 != 0)
-                            doc.text(130, firstLineYPosition + (currentLine * lineHeight) + .5, (product[0].costo * order[i][1]).toString(), null, null, "right");
-                        else
-                            doc.text(125.5, firstLineYPosition + (currentLine * lineHeight) + .5, (product[0].costo * order[i][1]).toString(), null, null, "right");
-                        total += costoTotal;
-                    } else
-                        calculable = false;
-                    */
 
                     //if notes
                     doc.setFont("Gill Sans Std Condensed");
