@@ -150,9 +150,10 @@
                 generatePDF();
             }
             else {
-                var searchResult = JSON.search(products, '//' + $('#inputSearch').val() + '|//*[contains(descripcion, "' + $('#inputSearch').val() + '")]');
+                var searchResult = JSON.search(products, '//*[contains(clave, "' + $('#inputSearch').val() + '")]|//*[contains(descripcion, "' + $('#inputSearch').val() + '")]');
                 $("#searchOptions").empty();
                 if($('#inputSearch').val() != "") {
+                    console.log(searchProduct);
                     searchProduct(searchResult);
                     if (e.keyCode == 13 && searchResult.length > 0)
                         addProduct(searchResult[0]);
