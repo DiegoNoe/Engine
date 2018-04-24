@@ -44,7 +44,7 @@
         <div class="form-group row" style="padding: 15px">
             <!-- name input-->
             <div id="inputNameContainer" class="col-md-4" style="padding-left: 0">
-                <input type="input" class="form-control" id="inputName" maxlength="25" placeholder="NOMBRE"> </input>
+                <input type="input" oninput="this.value = this.value.toUpperCase()" class="form-control" id="inputName" maxlength="25" placeholder="NOMBRE"> </input>
             </div>
             
             <!-- interface buttons -->
@@ -53,7 +53,7 @@
             <button type="button" class="btn btn-secondary" onclick="showAddFormat();" style="float: right; margin-right: 10px">AGREGAR</button>
             
             <!-- life search box -->
-            <input type="input" class="form-control" id="inputSearch" placeholder="ID"></input>
+            <input type="input" oninput="this.value = this.value.toUpperCase()" class="form-control" id="inputSearch" placeholder="ID"></input>
             <ul class="list-group search-options" id="searchOptions"></ul>
         </div>
         
@@ -82,12 +82,12 @@
                                     <!-- description -->
                                     <div class="col-sm-8">
                                         <label for="descriptionInput">DESCRIPCION</label>
-                                        <input class="form-control" type="text" maxlength="38" placeholder="ATUN CAPITAN MARINO ACEITE DE 140GRS" required>
+                                        <input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" maxlength="38" placeholder="ATUN CAPITAN MARINO ACEITE DE 140GRS" required>
                                     </div>
                                     <!-- id -->
                                     <div class="col-sm-4">
                                         <label for="IDInput">CLAVE</label>
-                                        <input class="form-control" type="text" placeholder="ACAPAC" required>
+                                        <input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" placeholder="ACAPAC" required>
                                     </div>
                                 </div>
 
@@ -95,7 +95,7 @@
                                     <!-- unit -->
                                     <div class="col-sm-4">
                                         <label for="unitInput">UNIDAD</label>
-                                        <input class="form-control" type="text" placeholder="PIEZA, CAJA, EXB..." required>
+                                        <input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" placeholder="PIEZA, CAJA, EXB..." required>
                                     </div>
                                     <!-- cost -->
                                     <div class="col-sm-4">
@@ -153,7 +153,6 @@
                 var searchResult = JSON.search(products, '//*[contains(clave, "' + $('#inputSearch').val() + '")]|//*[contains(descripcion, "' + $('#inputSearch').val() + '")]');
                 $("#searchOptions").empty();
                 if($('#inputSearch').val() != "") {
-                    console.log(searchProduct);
                     searchProduct(searchResult);
                     if (e.keyCode == 13 && searchResult.length > 0)
                         addProduct(searchResult[0]);
@@ -338,7 +337,7 @@
                     '<div class="col-sm-1 product-info">' + product.unidad + '</div>' +
                     '<div class="col-sm-5 product-info">' + product.descripcion + '</div>' +
                     '<div class="col-sm-4 product-notes-container">' +
-                        '<input type="input" class="form-control product-notes" maxlength="48" placeholder="NOTAS"> </input>' +
+                        '<input type="input" oninput="this.value = this.value.toUpperCase()" class="form-control product-notes" maxlength="48" placeholder="NOTAS"> </input>' +
                     '</div>' +
                     '<button type="button" class="btn btn-default btn-sm col-sm-1 remove-button">' +
                         '<span class="glyphicon glyphicon-remove" style="color:grey; padding-top: 3px"></span>' +
