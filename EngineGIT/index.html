@@ -150,7 +150,7 @@
                 generatePDF();
             }
             else {
-                var searchResult = JSON.search(products, '//*[contains(clave, "' + $('#inputSearch').val() + '")]|//*[contains(descripcion, "' + $('#inputSearch').val() + '")]');
+                var searchResult = JSON.search(products, '//' + $('#inputSearch').val() + '|//*[contains(descripcion, "' + $('#inputSearch').val() + '")]');
                 $("#searchOptions").empty();
                 if($('#inputSearch').val() != "") {
                     searchProduct(searchResult);
@@ -185,7 +185,7 @@
             document.getElementById("deleteButton").style.display = "inline";
             document.getElementById("verificationMessage").innerHTML = "";
 
-            var productToEdit = JSON.search(products, '//*[contains(clave, "' + id + '")]')[0];
+            var productToEdit = JSON.search(products, '//' + id)[0];
             var form = document.getElementById("addNewProductDBForm");
             //{description:0, id:1, unit:2, cost:3, type:4}
             form.elements[0].value = productToEdit.descripcion;
@@ -228,7 +228,6 @@
 
         //verificates inputs of modal form
         function verificateNewProduct() {
-            $('#dynamic-list li:first-child').remove();
             var messageLabel = document.getElementById("verificationMessage");
             var form = document.getElementById("addNewProductDBForm");
             var verificated = true;
@@ -255,8 +254,8 @@
                 verificated = false;
             }
 
-            //checks for paces in id
-            if(form.elements[1].value != " ") {
+            //checks for spaces in id
+            if(form.elements[1].value.indexOf(" ") >= 0) {
                 messageLabel.innerHTML = "LA CLAVE NO PUEDE TENER ESPACIOS";
                 verificated = false;
             }
@@ -322,7 +321,7 @@
 
         //adds the first product of the life search list by id
         function addProductByID(ID) {
-            var searchResult = JSON.search(products, '//*[contains(clave, "' + ID + '")]');
+            var searchResult = JSON.search(products, '//' + ID);
             addProduct(searchResult[0]);
         }
 
