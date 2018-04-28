@@ -8,6 +8,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="rightView.css">  
+    
+    <script src="snow-background.js"></script>
+    <script>
+        window.onload = function() {
+            try {
+                snow.count = 30;   // number of flakes
+                snow.delay = 20;   // timer interval
+                snow.minSpeed = 2; // minimum movement/time slice
+                snow.maxSpeed = 5; // maximum movement/time slice
+                snow.start();
+            } catch(e) {
+                // no snow :(
+            }
+        };
+    </script>
 
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
     <script>
@@ -23,7 +38,6 @@
       
         var database = firebase.database().ref('productos');
         database.on('value', function(snapshot) {
-            //Bebidas
             document.getElementById("FRUTSI").innerHTML = "$" + snapshot.val().FRUTSI.costo;
             document.getElementById("GATOC").innerHTML = "$" + snapshot.val().GATOC.costo;
             document.getElementById("BOINGCH").innerHTML = "$" + snapshot.val().BOINGCH.costo;
@@ -38,20 +52,6 @@
             document.getElementById("AGCACCU").innerHTML = "$" + snapshot.val().AGCACCU.costo;
             document.getElementById("AGIM1500C").innerHTML = "$" + snapshot.val().AGIM1500C.costo;
             document.getElementById("YAK30").innerHTML = "$" + snapshot.val().YAK30.costo;
-            //Huevo
-            document.getElementById("HUEVO").innerHTML = "$" + snapshot.val().HUEVO.costo;
-            document.getElementById("HUEVOC").innerHTML = "$" + snapshot.val().HUEVOC.costo + "k";
-            //Manteca
-            document.getElementById("MAN3").innerHTML = "$" + snapshot.val().MAN3.costo;
-            document.getElementById("MAN6").innerHTML = "$" + snapshot.val().MAN6.costo;
-            document.getElementById("MAN13").innerHTML = "$" + snapshot.val().MAN13.costo;
-            //Tostadas
-            document.getElementById("TOSNPAQ").innerHTML = "$" + snapshot.val().TOSNPAQ.costo;
-            document.getElementById("TOSDPAQ").innerHTML = "$" + snapshot.val().TOSDPAQ.costo;
-            //Pollo, Papas
-            document.getElementById("PKFC").innerHTML = "$" + snapshot.val().PKFC.costo;
-            document.getElementById("NPLL").innerHTML = "$" + snapshot.val().NPLL.costo;
-            document.getElementById("BPFR").innerHTML = "$" + snapshot.val().BPFR.costo;
         });
 
         var promosJSON;
@@ -77,6 +77,14 @@
             document.getElementById("PROM9c").innerHTML = snapshot.val().PROM9.precio;
             document.getElementById("PROM10p").innerHTML = snapshot.val().PROM10.producto;
             document.getElementById("PROM10c").innerHTML = snapshot.val().PROM10.precio;
+            document.getElementById("PROM11p").innerHTML = snapshot.val().PROM11.producto;
+            document.getElementById("PROM11c").innerHTML = snapshot.val().PROM11.precio;
+            document.getElementById("PROM12p").innerHTML = snapshot.val().PROM12.producto;
+            document.getElementById("PROM12c").innerHTML = snapshot.val().PROM12.precio;
+            document.getElementById("PROM13p").innerHTML = snapshot.val().PROM13.producto;
+            document.getElementById("PROM13c").innerHTML = snapshot.val().PROM13.precio;
+            document.getElementById("PROM14p").innerHTML = snapshot.val().PROM14.producto;
+            document.getElementById("PROM14c").innerHTML = snapshot.val().PROM14.precio;
             promosJSON = snapshot.val();
         });
 
@@ -157,110 +165,84 @@
                     <span class="price" id="YAK30"> </span>
                 </div>
             </div>
-            <div class="col-sm-2" id="fourthColumn">
-                <h3 class="title">Huevo</h3>  
-                <div class="product">                        
-                    <span class="name">Kilo</span>
-                    <span class="price" id="HUEVO"></span>
-                </div>
-                <div class="product">                
-                    <span class="name">Caja</span>
-                    <span class="price" id="HUEVOC"></span>  
-                </div>
-                <h3 class="title">Manteca</h3>                  
-                <div class="product">                               
-                    <span class="name">Chica</span>
-                    <span class="price" id="MAN3">  </span>  
-                </div>
-                <div class="product">                               
-                    <span class="name">Med.</span>
-                    <span  class="price" id="MAN6">  </span>
-                </div>
-                <div class="product">
-                    <span class="name">Grande</span>
-                    <span  class="price" id="MAN13">  </span>
-                </div>
-                <h3 class="title">Tostadas</h3>                  
-                <div class="product">                        
-                    <span class="name">Tradicional</span>
-                    <span  class="price" id="TOSNPAQ">  </span>
-                </div>
-                <div class="product"> 
-                    <span class="name">Deshidra.</span>
-                    <span  class="price" id="TOSDPAQ">  </span>
-                </div>
-                <h3 class="title">Pollo</h3>                                  
-                <div class="product"> 
-                    <span class="name">Pollo emp</span>
-                    <span  class="price" id="PKFC">  </span>
-                </div>
-                <div class="product"> 
-                    <span class="name">Nuggets</span>
-                    <span  class="price" id="NPLL">  </span>
-                </div>
-                <div class="product"> 
-                    <span class="name">Francesa</span>
-                    <span  class="price" id="BPFR">  </span>
-                </div>
-            </div>
-            <div class="col-sm-7" id="secondColumn">
+            <div class="col-sm-9" id="secondColumn">
                 <h3 class="title">Promociones del día</h3>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="text_over_image" id="PROM1p">Promoción</div> 
                         <div class="price_over_image" id="PROM1c">#1</div>                                                    
-                        <img class="promo" id="PROM1i" src="https://image.ibb.co/cePsAG/promo1.png">
+                        <img class="promo" id="PROM1i" src="https://image.ibb.co/cePsAG/promo1.png"> 
                     </div>
-                    <div class="col-sm-4" id="promo3">
+                    <div class="col-sm-3">
                         <div class="text_over_image" id="PROM2p">Promoción</div> 
                         <div class="price_over_image" id="PROM2c">#2</div>                                                    
-                        <img class="promo" id="PROM2i" src="https://image.ibb.co/cePsAG/promo1.png">   
+                        <img class="promo" id="PROM2i" src="https://image.ibb.co/cePsAG/promo1.png">
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3" id="promo3">
                         <div class="text_over_image" id="PROM3p">Promoción</div> 
                         <div class="price_over_image" id="PROM3c">#3</div>                                                    
-                        <img class="promo" id="PROM3i" src="https://image.ibb.co/cePsAG/promo1.png">     
+                        <img class="promo" id="PROM3i" src="https://image.ibb.co/cePsAG/promo1.png">   
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM4p">Promoción</div> 
+                        <div class="price_over_image" id="PROM4c">#4</div>                                                    
+                        <img class="promo" id="PROM4i" src="https://image.ibb.co/cePsAG/promo1.png">     
                     </div>
                 </div>
                 <div class="row" id="smallRow">
-                    <div class="col-sm-4">
-                        <div class="text_over_image" id="PROM4p">Promoción</div> 
-                        <div class="price_over_image" id="PROM4c">#4</div>                                                    
-                        <img class="promo" id="PROM4i" src="https://image.ibb.co/cePsAG/promo1.png">        
-                    </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="text_over_image" id="PROM5p">Promoción</div> 
                         <div class="price_over_image" id="PROM5c">#5</div>                                                    
-                        <img class="promo" id="PROM5i" src="https://image.ibb.co/cePsAG/promo1.png">   
+                        <img class="promo" id="PROM5i" src="https://image.ibb.co/cePsAG/promo1.png">
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="text_over_image" id="PROM6p">Promoción</div> 
                         <div class="price_over_image" id="PROM6c">#6</div>                                                    
-                        <img class="promo" id="PROM6i" src="https://image.ibb.co/cePsAG/promo1.png">       
+                        <img class="promo" id="PROM6i" src="https://image.ibb.co/cePsAG/promo1.png">        
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="text_over_image" id="PROM7p">Promoción</div> 
                         <div class="price_over_image" id="PROM7c">#7</div>                                                    
                         <img class="promo" id="PROM7i" src="https://image.ibb.co/cePsAG/promo1.png">   
                     </div>
-                    <div class="col-sm-4">
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
                         <div class="text_over_image" id="PROM8p">Promoción</div> 
                         <div class="price_over_image" id="PROM8c">#8</div>                                                    
-                        <img class="promo" id="PROM8i" src="https://image.ibb.co/cePsAG/promo1.png">       
+                        <img class="promo" id="PROM8i" src="https://image.ibb.co/cePsAG/promo1.png">    
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM9p">Promoción</div> 
+                        <div class="price_over_image" id="PROM9c">#9</div>                                                    
+                        <img class="promo" id="PROM9i" src="https://image.ibb.co/cePsAG/promo1.png">       
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM10p">Promoción</div> 
+                        <div class="price_over_image" id="PROM10c">#10</div>                                                    
+                        <img class="promo" id="PROM10i" src="https://image.ibb.co/cePsAG/promo1.png">   
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM11p">Promoción</div> 
+                        <div class="price_over_image" id="PROM11c">#11</div>                                                    
+                        <img class="promo" id="PROM11i" src="https://image.ibb.co/cePsAG/promo1.png">       
                     </div>
                 </div>
                 <div class="row" id="smallRow">
-                    <div class="col-sm-4">
-                        <div class="text_over_image" id="PROM9p">Promoción</div> 
-                        <div class="price_over_image" id="PROM9c">#9</div>                                                    
-                        <img class="promo" id="PROM9i" src="https://image.ibb.co/cePsAG/promo1.png">        
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM12p">Promoción</div> 
+                        <div class="price_over_image" id="PROM12c">#12</div>                                                    
+                        <img class="promo" id="PROM12i" src="https://image.ibb.co/cePsAG/promo1.png">    
                     </div>
-                    <div class="col-sm-4">
-                        <div class="text_over_image" id="PROM10p">Promoción</div> 
-                        <div class="price_over_image" id="PROM10c">#10</div>                                                    
-                        <img class="promo" id="PROM10i" src="https://image.ibb.co/cePsAG/promo1.png">    
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM13p">Promoción</div> 
+                        <div class="price_over_image" id="PROM13c">#13</div>                                                    
+                        <img class="promo" id="PROM13i" src="https://image.ibb.co/cePsAG/promo1.png">        
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="text_over_image" id="PROM14p">Promoción</div> 
+                        <div class="price_over_image" id="PROM14c">#14</div>                                                    
+                        <img class="promo" id="PROM14i" src="https://image.ibb.co/cePsAG/promo1.png">    
                     </div>
                 </div>
             </div>            
@@ -268,5 +250,15 @@
     </div>
 
 </body>
+<script>
+    /*
+    setInterval(function(){
+        if(document.getElementById("PROM5i").src == "https://image.ibb.co/cePsAG/promo1.png")
+            document.getElementById("PROM5i").src = "https://image.ibb.co/mYD0fG/promo6.png";
+        else
+            document.getElementById("PROM5i").src = "https://image.ibb.co/cePsAG/promo1.png"
+    }, 600);
+    */
+</script>
 </html>
 

@@ -79,6 +79,14 @@
             document.getElementById("PROM9c").value  = snapshot.val().PROM9.precio;
             document.getElementById("PROM10p").value  = snapshot.val().PROM10.producto;
             document.getElementById("PROM10c").value  = snapshot.val().PROM10.precio;
+            document.getElementById("PROM11p").value  = snapshot.val().PROM11.producto;
+            document.getElementById("PROM11c").value  = snapshot.val().PROM11.precio;
+            document.getElementById("PROM12p").value  = snapshot.val().PROM12.producto;
+            document.getElementById("PROM12c").value  = snapshot.val().PROM12.precio;
+            document.getElementById("PROM13p").value  = snapshot.val().PROM13.producto;
+            document.getElementById("PROM13c").value  = snapshot.val().PROM13.precio;
+            document.getElementById("PROM14p").value  = snapshot.val().PROM14.producto;
+            document.getElementById("PROM14c").value  = snapshot.val().PROM14.precio;
             promosJSON = snapshot.val();
         });
 
@@ -257,20 +265,20 @@
                         </input>
                         <img class="promo" id="PROM3i" src="https://image.ibb.co/cePsAG/promo1.png">   
                     </div>
+                    <div class="col-sm-3">
+                        <input onclick="animationChecked('PROM4')" id="PROM4a" type="checkbox" class="checkbox">                                                        
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM4");}' 
+                            class="text_over_image" id="PROM4p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM4");}' 
+                            class="price_over_image" id="PROM4c"> 
+                        </input>
+                        <img class="promo" id="PROM4i" src="https://image.ibb.co/cePsAG/promo1.png">     
+                    </div>
                 </div>
                 <div class="row" id="smallRow">
-                    <div class="col-sm-3">
-                            <input onclick="animationChecked('PROM4')" id="PROM4a" type="checkbox" class="checkbox">                                                        
-                            <input type="text" 
-                                onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM4");}' 
-                                class="text_over_image" id="PROM4p"> 
-                            </input>
-                            <input type="text" 
-                                onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM4");}' 
-                                class="price_over_image" id="PROM4c"> 
-                            </input>
-                            <img class="promo" id="PROM4i" src="https://image.ibb.co/cePsAG/promo1.png">     
-                        </div>
                     <div class="col-sm-3">
                         <input onclick="animationChecked('PROM5')" id="PROM5a" type="checkbox" class="checkbox">                            
                         <input type="text" 
@@ -283,9 +291,7 @@
                         </input>
                         <img class="promo" id="PROM5i" src="https://image.ibb.co/cePsAG/promo1.png">
                     </div>
-                </div>
-                <div class="row">
-                <div class="col-sm-3">
+                    <div class="col-sm-3">
                         <input onclick="animationChecked('PROM6')" id="PROM6a" type="checkbox" class="checkbox">
                         <input type="text" 
                             onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM6");}' 
@@ -309,6 +315,8 @@
                         </input>
                         <img class="promo" id="PROM7i" src="https://image.ibb.co/cePsAG/promo1.png">   
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-sm-3">
                         <input onclick="animationChecked('PROM8')" id="PROM8a" type="checkbox" class="checkbox">
                         <input type="text" 
@@ -321,8 +329,6 @@
                         </input>
                         <img class="promo" id="PROM8i" src="https://image.ibb.co/cePsAG/promo1.png">    
                     </div>
-                </div>
-                <div class="row" id="smallRow">
                     <div class="col-sm-3">
                         <input onclick="animationChecked('PROM9')" id="PROM9a" type="checkbox" class="checkbox">
                         <input type="text" 
@@ -346,6 +352,56 @@
                             class="price_over_image" id="PROM10c"> 
                         </input>
                         <img class="promo" id="PROM10i" src="https://image.ibb.co/cePsAG/promo1.png">   
+                    </div>
+                    <div class="col-sm-3">
+                        <input onclick="animationChecked('PROM11')" id="PROM11a" type="checkbox" class="checkbox">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM11");}' 
+                            class="text_over_image" id="PROM11p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM11");}' 
+                            class="price_over_image" id="PROM11c"> 
+                        </input>
+                        <img class="promo" id="PROM11i" src="https://image.ibb.co/cePsAG/promo1.png">       
+                    </div>
+                </div>
+                <div class="row" id="smallRow">
+                    <div class="col-sm-3">
+                        <input onclick="animationChecked('PROM12')" id="PROM12a" type="checkbox" class="checkbox">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM12");}' 
+                            class="text_over_image" id="PROM12p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM12");}' 
+                            class="price_over_image" id="PROM12c"> 
+                        </input>
+                        <img class="promo" id="PROM12i" src="https://image.ibb.co/cePsAG/promo1.png">    
+                    </div>
+                    <div class="col-sm-3">
+                        <input onclick="animationChecked('PROM13')" id="PROM13a" type="checkbox" class="checkbox">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM13");}' 
+                            class="text_over_image" id="PROM13p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM13");}' 
+                            class="price_over_image" id="PROM13c"> 
+                        </input>
+                        <img class="promo" id="PROM13i" src="https://image.ibb.co/cePsAG/promo1.png">        
+                    </div>
+                    <div class="col-sm-3">
+                        <input onclick="animationChecked('PROM14')" id="PROM14a" type="checkbox" class="checkbox">
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoProduct("PROM14");}' 
+                            class="text_over_image" id="PROM14p"> 
+                        </input>
+                        <input type="text" 
+                            onkeydown='if (event.keyCode == 13) {updatePromoPrice("PROM14");}' 
+                            class="price_over_image" id="PROM14c"> 
+                        </input>
+                        <img class="promo" id="PROM14i" src="https://image.ibb.co/cePsAG/promo1.png">    
                     </div>
                 </div>
             </div>            

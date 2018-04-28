@@ -41,7 +41,7 @@
     <div id="qrcode" style="position: absolute; left: -9999px"></div>
 
     <div class="container-fluid">
-        <div class="form-group row" style="padding: 15px">
+        <div class="form-group row" style="padding: 5px 15px">
             <!-- name input-->
             <div id="inputNameContainer" class="col-md-4" style="padding-left: 0">
                 <input type="input" oninput="this.value = this.value.toUpperCase()" class="form-control" id="inputName" maxlength="25" placeholder="NOMBRE"> </input>
@@ -53,7 +53,7 @@
             <button type="button" class="btn btn-secondary" onclick="showAddFormat();" style="float: right; margin-right: 10px">AGREGAR</button>
             
             <!-- life search box -->
-            <input type="input" oninput="this.value = this.value.toUpperCase()" class="form-control" id="inputSearch" placeholder="ID"></input>
+            <input type="input" oninput="this.value = this.value.toUpperCase()" class="form-control" id="inputSearch" placeholder="CLAVE"></input>
             <ul class="list-group search-options" id="searchOptions"></ul>
         </div>
         
@@ -141,21 +141,26 @@
         //inputSearch search onEnter
         $("#inputSearch").on('keyup', function (e) {
             if (e.keyCode == 219 || e.keyCode == 111) {
+                $("#dynamic-list").css("opacity", "1");
                 $("#inputName").focus();
                 $("#inputSearch").val($("#inputSearch").val().substring(0, $("#inputSearch").val().length - 1));
                 setTimeout(function(){
                     $("#inputName").val($("#inputName").val().substring(0, $("#inputName").val().length - 1));
                 }, 100);
             } else if (e.keyCode == 221 || e.keyCode == 106) {
+                $("#dynamic-list").css("opacity", "1");
                 generatePDF();
             }
             else {
                 var searchResult = JSON.search(products, '//*[contains(clave, "' + $('#inputSearch').val() + '")]|//*[contains(descripcion, "' + $('#inputSearch').val() + '")]');
                 $("#searchOptions").empty();
                 if($('#inputSearch').val() != "") {
+                    $("#dynamic-list").css("opacity", "0.1");
                     searchProduct(searchResult);
                     if (e.keyCode == 13 && searchResult.length > 0)
                         addProduct(searchResult[0]);
+                } else {
+                    $("#dynamic-list").css("opacity", "1");
                 }
             }
         });
@@ -328,6 +333,8 @@
         //adds the item to the list
         function addProduct(product) {
             $("#searchOptions").empty();
+            $("#dynamic-list").css("opacity", "1");
+
             $("#inputSearch").val("");
             var productListItem = 
                 '<li class="list-group-item row product-row" data-id="' + product.clave + '">' +
@@ -353,10 +360,11 @@
             //inputQuantity enter sequence
             $('#dynamic-list').find('input').first().on('keydown', function (e) {
                 if (e.keyCode == 13) {
-                    $("#inputSearch").focus();
+                    //to searchbar
+                    //$("#inputSearch").focus();
 
                     //to notes focus
-                    //$(this).parent().nextAll().eq(2).children().focus();
+                    $(this).parent().nextAll().eq(2).children().focus();
                 }
             });
             
@@ -438,11 +446,13 @@
             doc.text(114, 22.5, hourWithMinutes);
         }
 
-        //adds the name the de pff
+        //adds the name the de pdf
         function addNamePDF(doc) {
             var name = $("#inputName").val();
             doc.setFontSize(22);
             doc.text(27, 34, name);
+
+            console.log(name);
         }
 
         function drawCricle(doc, YCoordinate, validColor) {
@@ -512,21 +522,23 @@
                     //quantity and unit
                     doc.setFont("Gill Sans Std Condensed");
                     doc.setFontSize(16);
-                    doc.setPage(pagesQuantity * 2 - 1);     
+                    var quantityAndUnit = order[i][1] + shortenedUnits[order[i][2]];
 
-                    /*
-                    if((order[i][1] % 1)== .5) {
-                        doc.setFont("helvetica");
-                        console.log(Math.floor(order[i][1]) + " ½");
-                        doc.text(15, firstLineYPosition + (currentLine * lineHeight), Math.floor(order[i][1]) + " ½" + " " + shortenedUnits[order[i][2]], null, null, "center");
-                        doc.setPage(pagesQuantity * 2);    
-                        doc.text(15, firstLineYPosition + (currentLine * lineHeight), Math.floor(order[i][1]) + " ½" + " " + shortenedUnits[order[i][2]], null, null, "center");
-                    }
-                    */
-                        
-                    doc.text(15, firstLineYPosition + (currentLine * lineHeight), order[i][1] + " " + shortenedUnits[order[i][2]], null, null, "center");
+                    if(quantityAndUnit.includes(".500"))
+                        quantityAndUnit = quantityAndUnit.replace(".500", ".500");
+                    else if(quantityAndUnit.includes(".50"))
+                        quantityAndUnit = quantityAndUnit.replace(".50", ".500");
+                    else if(quantityAndUnit.includes(".5"))
+                        quantityAndUnit = quantityAndUnit.replace(".5", ".500");
+                    else if(quantityAndUnit.includes(".250"))
+                        quantityAndUnit = quantityAndUnit.replace(".250", "250");
+                    else if(quantityAndUnit.includes(".25"))
+                        quantityAndUnit = quantityAndUnit.replace(".25", "250");      
+
+                    doc.setPage(pagesQuantity * 2 - 1);     
+                    doc.text(15, firstLineYPosition + (currentLine * lineHeight), quantityAndUnit, null, null, "center");
                     doc.setPage(pagesQuantity * 2);    
-                    doc.text(15, firstLineYPosition + (currentLine * lineHeight), order[i][1] + " " + shortenedUnits[order[i][2]], null, null, "center");
+                    doc.text(15, firstLineYPosition + (currentLine * lineHeight), quantityAndUnit, null, null, "center");
           
                     
                     //product price * quantity

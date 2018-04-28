@@ -76,7 +76,7 @@
 
     <script type="text/javascript">
         function playSound() {
-            Android.playSound();
+            //Android.playSound();
         }
     </script>
 
@@ -119,6 +119,18 @@
                             description = description.replace(description.substring(indexOfJamon, indexOfJamon + 5), "");
                         var notes = childSnapshot.child("notes").val();
                         var hour = childSnapshot.child("hour").val().slice(0, -3);
+
+                        if(quantityAndUnit.includes(".500"))
+                            quantityAndUnit = quantityAndUnit.replace(".500", "½");
+                        if(quantityAndUnit.includes(".50"))
+                            quantityAndUnit = quantityAndUnit.replace(".50", "½");
+                        if(quantityAndUnit.includes(".5"))
+                            quantityAndUnit = quantityAndUnit.replace(".5", "½");
+
+                        if(quantityAndUnit.includes(".250"))
+                            quantityAndUnit = quantityAndUnit.replace(".250", "¼");
+                        if(quantityAndUnit.includes(".25"))
+                            quantityAndUnit = quantityAndUnit.replace(".25", "¼");
 
                         var productListItem =
                         '<button class="list-group-item row product-row btn-default" style="padding-left: 12px; padding-right: 12px;" data-id="' + childSnapshot.key + '"">' +
@@ -177,7 +189,19 @@
                         description = description.replace(description.substring(indexOfJamon, indexOfJamon + 5), "");
                     var notes = childSnapshot.child("notes").val();
                     var hour = childSnapshot.child("hour").val().slice(0, -3);
-                    var hourDone = childSnapshot.child("hourDone").val().slice(0, -3);
+                    var hourDone = childSnapshot.child("hourDone").val().slice(0, -3);          
+                    
+                    if(quantityAndUnit.includes(".500"))
+                        quantityAndUnit = quantityAndUnit.replace(".500", "½");
+                    if(quantityAndUnit.includes(".50"))
+                        quantityAndUnit = quantityAndUnit.replace(".50", "½");
+                    if(quantityAndUnit.includes(".5"))
+                        quantityAndUnit = quantityAndUnit.replace(".5", "½");
+
+                    if(quantityAndUnit.includes(".250"))
+                        quantityAndUnit = quantityAndUnit.replace(".250", "¼");
+                    if(quantityAndUnit.includes(".25"))
+                        quantityAndUnit = quantityAndUnit.replace(".25", "¼");      
 
                     var productListItem =
                         '<li class="list-group-item row product-row" style="padding-left: 12px; padding-right: 12px;" data-id="' + childSnapshot.key + '"">' +
