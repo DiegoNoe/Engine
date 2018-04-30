@@ -11,7 +11,7 @@
     <script language="javascript" type="text/javascript" src="js/jquery.min.js"></script>
     <script language="javascript" type="text/javascript" src="js/bootstrap.min.js"></script>
     <script language="javascript" type="text/javascript" src="js/firebase.js"></script>    
-    <script language="javascript" type="text/javascript" src="js/jspdf.customfonts.debug.js "></script>
+    <script language="javascript" type="text/javascript" src="js/jspdf.customfonts.min.js "></script>
     <script language="javascript" type="text/javascript" src="js/default_vfs.js"></script>
     <script language="javascript" type="text/javascript" src="js/defiant.min.js"></script>
     <script language="javascript" type="text/javascript" src="js/qrcode.js"></script>
@@ -138,7 +138,7 @@
                 $("#inputSearch").focus();
         });
 
-        //inputSearch search onEnter
+        //inputSearch search onkeyup
         $("#inputSearch").on('keyup', function (e) {
             if (e.keyCode == 219 || e.keyCode == 111) {
                 $("#dynamic-list").css("opacity", "1");
@@ -152,7 +152,23 @@
                 generatePDF();
             }
             else {
-                var searchResult = JSON.search(products, '//*[contains(clave, "' + $('#inputSearch').val() + '")]|//*[contains(descripcion, "' + $('#inputSearch').val() + '")]');
+                var searchResult;
+                var inputSearchValue = $('#inputSearch').val();
+                if(inputSearchValue.includes(" ")) {
+                    inputSearchValue = inputSearchValue.split(" ");
+                    for(i = 0; i < inputSearchValue.length; i++) {
+                        if(inputSearchValue[i] != "") {
+                            if(searchResult == null)
+                                searchResult = JSON.search(products, '//*[contains(descripcion, "' + inputSearchValue[i] + '")]');
+                            else
+                                searchResult = (searchResult, JSON.search(searchResult, '//*[contains(descripcion, "' + inputSearchValue[i] + '")]'));
+                        }
+                    }
+                }
+                else {
+                    searchResult = JSON.search(products, '//*[contains(clave, "' + $('#inputSearch').val() + '")]|//*[contains(descripcion, "' + $('#inputSearch').val() + '")]');
+                }
+
                 $("#searchOptions").empty();
                 if($('#inputSearch').val() != "") {
                     $("#dynamic-list").css("opacity", "0.1");
