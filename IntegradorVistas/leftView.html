@@ -7,7 +7,6 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="leftView.css">
 
         <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
         <script>
@@ -69,13 +68,92 @@
             //style="position: absolute; left: -9999px;"
         </script>
 
+        <script type="text/javascript">
+            function speechText(name) {
+                Android.speechText(name);
+            }
+        </script>
+
+        <style>
+        @font-face {
+            font-family: GillSansMTCondBold;
+                src: url(GillSansMTCondensedBold.ttf);
+            }
+
+            @font-face {
+                font-family: GillSansMTCond;
+                src: url(GillSansStd-Condensed.otf);
+            }
+
+            .container-fluid {
+                padding-top: 20px;
+                padding-left: 40px;
+                padding-right: 0px;
+            }
+
+            .col-sm-3 {
+                padding-left: 10px;
+                padding-right: 0px;
+            }
+
+            #secondColumn .product{
+                line-height: 320%;          
+            }
+
+            #thirdColumn .product{
+                line-height: 310%;          
+            }
+
+            #pedidosListosTitle {
+                position: absolute;
+                z-index: 1;
+                background-color: white;
+                box-shadow: 0px 5px 5px #FFFFFF;
+                padding-bottom: 0px;
+            }
+
+            ul {
+                list-style-type: none;
+                padding-left: 0px;
+                margin-top: 95px;
+            }
+
+            .title {
+                font-family: GillSansMTCondBold;
+                font-size: 50px;    
+                color: red;
+                line-height: 80%;
+                padding-bottom: 5px;
+                margin-top: 5px;
+            }
+
+            .product{
+                line-height: 325%;          
+            }
+
+            .name {
+                font-family: GillSansMTCond;
+                font-size: 45px;   
+                color: black;
+                line-height: 0px;                  
+            }
+
+            .price {
+                font-family: GillSansMTCond;
+                font-size: 35px;   
+                color: rgb(128,128,128);
+                padding-left: 10px;
+                line-height: 0px;                      
+            }
+        </style>
+
     </head>
     <body>
         <div class="container-fluid">
-            <input id="inputName" ></input>
+            <input id="inputName" style="position: absolute;left: -9999px;"></input>
             <div class="row">
                 <div class="col-sm-3" id="fourthColumn">
-                    <h3 id="pedidosListosTitle" class="title">Pedidos Listos</h3>  
+                    <h3 id="pedidosListosTitle" class="title">Pedidos<br>Listos</h3>  
                     <ul id="dynamic-list"></ul>
                 </div>
                 <div class="col-sm-3" id="firstColumn">
@@ -251,7 +329,7 @@
                     $("#inputName").val("");
 
                     if(!$("#dynamic-list #" + name.replace(/ /g,"_")).length) {
-                        speakName(name);                            
+                        speechText(name);                            
                         insertAlphabetically(name);
                     } else {
                         $("#dynamic-list #" + name.replace(/ /g,"_")).remove();
@@ -263,7 +341,7 @@
                         }
                     } else {
                         animationState = false;
-                        $('#dynamic-list li').sort(sort_li).appendTo('#dynamic-list');
+                        sortList();
                     }
                 }
             }
@@ -279,15 +357,29 @@
                     '</li>';
 
                 $('#dynamic-list').append(nameListItem);
-                $('#dynamic-list li').sort(sort_li).appendTo('#dynamic-list');
+                sortList();
             }
 
-            function speakName(name) {
-                var msg = new SpeechSynthesisUtterance();
-
-                msg.text = name;
-                window.speechSynthesis.speak(msg);
-            } 
+            function sortList() {
+                var list, i, switching, b, shouldSwitch;
+                list = document.getElementById("dynamic-list");
+                switching = true;
+                while (switching) {
+                    switching = false;
+                    b = list.getElementsByTagName("LI");
+                    for (i = 0; i < (b.length - 1); i++) {
+                        shouldSwitch = false;
+                        if (b[i].firstElementChild.innerHTML.toLowerCase() > b[i + 1].firstElementChild.innerHTML.toLowerCase()) {
+                            shouldSwitch= true;
+                            break;
+                        }
+                    }
+                    if (shouldSwitch) {
+                        b[i].parentNode.insertBefore(b[i + 1], b[i]);
+                        switching = true;
+                    }
+                }
+            }
 
             function toTitleCase(str) {
                 return str.replace(/\w\S*/g, function(txt) {

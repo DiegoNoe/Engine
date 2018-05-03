@@ -159,19 +159,23 @@
                     for(i = 0; i < inputSearchValue.length; i++) {
                         if(inputSearchValue[i] != "") {
                             if(searchResult == null)
-                                searchResult = JSON.search(products, '//*[contains(descripcion, "' + inputSearchValue[i] + '")]');
+                                searchResult = JSON.search(products, '//*[contains(descripcion, "' + inputSearchValue[i] + '")]' + 
+                                                                    '|//*[contains(unidad, "' + inputSearchValue[i] + '")]');
                             else
-                                searchResult = (searchResult, JSON.search(searchResult, '//*[contains(descripcion, "' + inputSearchValue[i] + '")]'));
+                                searchResult = JSON.search(searchResult, '//*[contains(descripcion, "' + inputSearchValue[i] + '")]' +
+                                                                        '|//*[contains(unidad, "' + inputSearchValue[i] + '")]');
                         }
                     }
                 }
                 else {
-                    searchResult = JSON.search(products, '//*[contains(clave, "' + $('#inputSearch').val() + '")]|//*[contains(descripcion, "' + $('#inputSearch').val() + '")]');
+                    searchResult = JSON.search(products, '//*[contains(clave, "' + $('#inputSearch').val() + '")]' + 
+                                                        '|//*[contains(descripcion, "' + $('#inputSearch').val() + '")]' + 
+                                                        '|//*[contains(unidad, "' + $('#inputSearch').val() + '")]');
                 }
 
                 $("#searchOptions").empty();
                 if($('#inputSearch').val() != "") {
-                    $("#dynamic-list").css("opacity", "0.1");
+                    $("#dynamic-list").css("opacity", "0.25");
                     searchProduct(searchResult);
                     if (e.keyCode == 13 && searchResult.length > 0)
                         addProduct(searchResult[0]);
@@ -185,11 +189,12 @@
         function searchProduct(searchResult) {            
             var searchItem = "";
             $("#searchOptions").empty();
-            for(var i = 0; i < searchResult.length && i < 9; i++) {
+            for(var i = 0; i < searchResult.length && i < 100; i++) {
                 searchItem = 
-                    '<button class="list-group-item row btn-default" onclick="addProductByID(&#39;' + searchResult[i].clave + '&#39;)">' +
+                    '<button class="list-group-item row btn-default search-options-item" onclick="addProductByID(&#39;' + searchResult[i].clave + '&#39;)">' +
                         '<div class="col-sm-2">' + searchResult[i].clave + '</div>' +
-                        '<div class="col-sm-8">' + searchResult[i].descripcion + '</div>' +
+                        '<div class="col-sm-1">' + searchResult[i].unidad + '</div>' +
+                        '<div class="col-sm-7">' + searchResult[i].descripcion + '</div>' +
                         '<div class="col-sm-1">' + searchResult[i].costo + '</div>' +
                         '<div type="button" class="btn btn-sm col-sm-1 edit-button" onclick="editProduct(&#39;' + searchResult[i].clave + '&#39;)">' +
                             '<span style="color:grey;"> EDITAR </span>' +
@@ -466,9 +471,7 @@
         function addNamePDF(doc) {
             var name = $("#inputName").val();
             doc.setFontSize(22);
-            doc.text(27, 34, name);
-
-            console.log(name);
+            doc.text(27, 34, replaceAEIOUN(name));
         }
 
         function drawCricle(doc, YCoordinate, validColor) {
@@ -480,14 +483,25 @@
             doc.circle(7, YCoordinate - 1.7, .8, 'F');
         }
 
+        function replaceAEIOUN(string) {
+            string = string.replace(/á/gi,"A");
+            string = string.replace(/é/gi,"E");
+            string = string.replace(/í/gi,"I");
+            string = string.replace(/ó/gi,"O");
+            string = string.replace(/ú/gi,"U");
+            string = string.replace(/ñ/gi,"N");
+            return string;
+        } 
+
         //generates a PDF with autoprint
         function generatePDF() {
             //set PDF defaults
             var order = getOrderProducts();
             if($("#inputName").val() == "") {
-                alert("La nota no tiene nombre, ingresa");
+                alert("La nota no tiene nombre, ingresa uno.");
                 verificatedOrder = false;
             }
+
             if(verificatedOrder) {
                 var doc = new jsPDF({
                     orientation: 'p',
@@ -547,9 +561,18 @@
                     else if(quantityAndUnit.includes(".5"))
                         quantityAndUnit = quantityAndUnit.replace(".5", ".500");
                     else if(quantityAndUnit.includes(".250"))
-                        quantityAndUnit = quantityAndUnit.replace(".250", "250");
+                        quantityAndUnit = quantityAndUnit.replace(".250", ".250");
                     else if(quantityAndUnit.includes(".25"))
-                        quantityAndUnit = quantityAndUnit.replace(".25", "250");      
+                        quantityAndUnit = quantityAndUnit.replace(".25", ".250");
+
+                    console.log(quantityAndUnit.slice(0, 4));
+                    console.log("hola!!!!");
+
+                    if(quantityAndUnit.slice(0, 4) == ".500")
+                        quantityAndUnit = quantityAndUnit.replace(".500", "1/2");
+                    else if(quantityAndUnit.slice(0, 4) == ".250")
+                        quantityAndUnit = quantityAndUnit.replace(".250", "1/4");
+
 
                     doc.setPage(pagesQuantity * 2 - 1);     
                     doc.text(15, firstLineYPosition + (currentLine * lineHeight), quantityAndUnit, null, null, "center");
@@ -576,23 +599,23 @@
                         //notes
                         doc.setFontSize(10);
                         doc.setPage(pagesQuantity * 2 - 1);              
-                        doc.text(26.3, firstLineYPosition + (currentLine * lineHeight) + 1.5, order[i][4]);
+                        doc.text(26.3, firstLineYPosition + (currentLine * lineHeight) + 1.5, replaceAEIOUN(order[i][4]));
                         doc.setPage(pagesQuantity * 2);              
-                        doc.text(26.3, firstLineYPosition + (currentLine * lineHeight) + 1.5, order[i][4]);
+                        doc.text(26.3, firstLineYPosition + (currentLine * lineHeight) + 1.5, replaceAEIOUN(order[i][4]));
 
                         //description
                         doc.setFontSize(16);
                         doc.setPage(pagesQuantity * 2 - 1);              
-                        doc.text(26, firstLineYPosition + (currentLine * lineHeight) - 1.5, order[i][3]);
+                        doc.text(26, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
                         doc.setPage(pagesQuantity * 2);              
-                        doc.text(26, firstLineYPosition + (currentLine * lineHeight) - 1.5, order[i][3]);
+                        doc.text(26, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
                     } else {
                         //description
                         doc.setFontSize(16);
                         doc.setPage(pagesQuantity * 2 - 1);              
-                        doc.text(26, firstLineYPosition + (currentLine * lineHeight), order[i][3]);
+                        doc.text(26, firstLineYPosition + (currentLine * lineHeight), replaceAEIOUN(order[i][3]));
                         doc.setPage(pagesQuantity * 2);              
-                        doc.text(26, firstLineYPosition + (currentLine * lineHeight), order[i][3]);
+                        doc.text(26, firstLineYPosition + (currentLine * lineHeight), replaceAEIOUN(order[i][3]));
                     }
 
                     //send to cremas or jamones with index

@@ -17,6 +17,7 @@
     position: relative;
     font-weight: bold;
     font-size: 15px;
+    
 }
 
 #inputNameContainer {
@@ -27,16 +28,17 @@
     position: absolute;
     z-index: 1;
     margin-top: 10px;
-    left: 30px;
+    left: 15px;
     right: 0px;
+    overflow-y: scroll;
+    max-height: 550px;
+    padding-left: 15px;
 }
 
 .search-options-item {
-    padding: 0px 20px;
-}
+    padding-top: 5px;
+    padding-bottom: 5px;
 
-.search-options-item {
-    height: 20px;
 }
 
 .product-row {
