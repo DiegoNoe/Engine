@@ -70,7 +70,7 @@
 
         <script type="text/javascript">
             function speechText(name) {
-                Android.speechText(name);
+                //Android.speechText(name);
             }
         </script>
 
@@ -150,7 +150,7 @@
     </head>
     <body>
         <div class="container-fluid">
-            <input id="inputName" style="position: absolute;left: -9999px;"></input>
+            <input id="inputName" ></input>
             <div class="row">
                 <div class="col-sm-3" id="fourthColumn">
                     <h3 id="pedidosListosTitle" class="title">Pedidos<br>Listos</h3>  
@@ -315,18 +315,27 @@
             </div>
         </div>
         <script>
+            //style="position: absolute;left: -9999px;"
             
-            $("#inputName").focus();
-            $("#inputName").on('keyup', function (e) {
+            //$("#inputName").focus();
+            document.getElementById("inputName").focus();
+            document.getElementById("inputName").addEventListener("keyup", listenerFunction);
+            function listenerFunction() {
                 setTimeout(function(){
                     manageScannerInput();
-                }, 250);
-            });
+                }, 500);
+            }
+
+            //$("#inputName").on('keyup', function (e) {
+            //    setTimeout(function(){
+            //        manageScannerInput();
+            //    }, 250);
+            //});
 
             function manageScannerInput() {
-                if($("#inputName").val() != "") {
-                    var name = toTitleCase($("#inputName").val());
-                    $("#inputName").val("");
+                if(document.getElementById("inputName").innerHTML == "") {
+                    var name = toTitleCase(document.getElementById("inputName").innerHTML);
+                    document.getElementById("inputName").innerHTML = "";
 
                     if(!$("#dynamic-list #" + name.replace(/ /g,"_")).length) {
                         speechText(name);                            
